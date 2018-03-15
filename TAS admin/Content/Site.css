@@ -1,0 +1,93 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+.footer, .content:after {
+  height: 50px;
+ }
+ .footer {
+  background: #ffffff;
+ }
+
+.carousel-inner > .item > img,
+.carousel-inner > .item > a > img {
+    width: 70%;
+    margin: auto;
+}
+
+@media(max-width: 580px) {
+	header {
+		width: 100%;
+		height: 80vh;
+		background: url(img/overview.png) no-repeat 50% 50%;
+		background-size: cover
+	}
+
+	nav {
+		height: 10px;
+	}
+
+	.img {
+		width: 20%;
+	}
+
+	.logo {
+		position: fixed;
+		top: 0;
+		margin-top: 16px;
+	}
+
+	nav ul {
+		max-height: 0px;
+		background: #000;
+		margin: 0px;
+	}
+
+		nav ul li {
+			box-sizing: border-box;
+			width: 100%;
+			padding: 24px 0;
+			text-align: center;
+		}
+
+	nav.black ul {
+		background: #000;
+	}
+
+	.showing {
+		max-height: 20em
+	}
+
+	.menu-icon {
+		display: block;
+	}
+
+	footer {
+		padding: 15px;
+		text-align: center;
+		background: #3e3e3e;
+		color: #fff;
+		width: 100%;
+		height: 100%;
+	}
+}

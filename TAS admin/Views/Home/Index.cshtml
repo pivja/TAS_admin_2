@@ -1,0 +1,102 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<br />
+<div class="jumbotron">
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+            <li data-target="#myCarousel" data-slide-to="3"></li>
+        </ol>
+
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
+            <div class="item active">
+                <img src="http://seminardd.com/upload/8MZ9OKMV3FRB3A35OI98SVNCW.jpg" alt="Chania" width="460" height="345">
+                <div class="carousel-caption">
+                    <h3>ระบบติดตามรถขนส่ง</h3>
+                    <p>The atmosphere in Chania has a touch of Florence and Venice.</p>
+                </div>
+            </div>
+
+            <div class="item">
+                <img src="https://financialtribune.com/sites/default/files/field/image/07-SJ_Trade%20894-ab.jpg" alt="Chania" width="460" height="345">
+                <div class="carousel-caption">
+                    <h3>Chania</h3>
+                    <p>The atmosphere in Chania has a touch of Florence and Venice.</p>
+                </div>
+            </div>
+
+            <div class="item">
+                <img src="http://seminardd.com/upload/8MZ9OKMV3FRB3A35OI98SVNCW.jpg" alt="Flower" width="460" height="345">
+                <div class="carousel-caption">
+                    <h3>Chania</h3>
+                    <p>The atmosphere in Chania has a touch of Florence and Venice.</p>
+                </div>
+            </div>
+
+            <div class="item">
+                <img src="https://financialtribune.com/sites/default/files/field/image/07-SJ_Trade%20894-ab.jpg" alt="Flower" width="460" height="345">
+                <div class="carousel-caption">
+                    <h3>Chania</h3>
+                    <p>The atmosphere in Chania has a touch of Florence and Venice.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Left and right controls -->
+        <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</div>
+
+<div class="container-fluid">
+	<div class="row" style="padding:10px;">
+		<button type="button" class="btn btn-default" style="padding:10px;">@Html.ActionLink("Personal", "Any_From_Person", "Admin_manage")</button>
+		<button type="button" class="btn btn-default" style="padding:10px;">@Html.ActionLink("History", "History", "Admin_manage")</button>
+		<button type="button" class="btn btn-default" style="padding:10px;">@Html.ActionLink("History id", "History_id", "Admin_manage")</button>
+		<button type="button" class="btn btn-default" style="padding:10px;">@Html.ActionLink("Truck Information2", "Truck_information1", "Admin_manage")</button>
+		<button type="button" class="btn btn-default" style="padding:10px;">@Html.ActionLink("Truck Information2 id", "Truck_information1_id", "Admin_manage")</button>
+		<button type="button" class="btn btn-default" style="padding:10px;">@Html.ActionLink("Edit truck", "Edit_truck", "Admin_manage")</button>
+	</div>
+
+	<div class="row">
+		<div class="col-md-6" style="">
+			<div style="margin:0px 10px 0px 10px; background-color:lavender; ">
+				<div class="row">
+					<div class="col-sm-2" style="">
+						<img src="https://www.atomix.com.au/media/2015/06/atomix_user31.png" class="media-object" style="width:60px">
+					</div>
+					<div class="col-sm-10" style="">
+						<h4 class="media-heading">สมหมาย  <small><i>ศรีราชา ชลบุรี</i></small></h4>
+						<p>นิคมอุตสาหกรรมมาบตาพุต ถ.ไอแปด ตำบลมาบตาพุต อำเภอเมืองระยอง จังหวัดระยอง 21150. โทร.0301345355</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6" style="">
+			<div style="margin:0px 10px 0px 10px; background-color:lavender;">
+				<div class="row">
+					<div class="col-sm-2" style="">
+						<img src="https://www.atomix.com.au/media/2015/06/atomix_user31.png" class="media-object" style="width:60px">
+					</div>
+					<div class="col-sm-10" style="">
+						<h4 class="media-heading">ปริญญา  <small><i>บางประกง ฉะเชิงเทรา </i></small></h4>
+						<p>อาคารอมตะเซอร์วิสเซ็นเตอร์ ถนนบางนา-ตราด ตำบลคลองตำหรุ อำเภอเมือง ชลบุรี 20000. โทร.0301345355</p>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

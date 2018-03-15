@@ -1,0 +1,179 @@
+﻿@{
+    ViewBag.Title = "About";
+}
+<h2>หน้า Admin</h2>
+
+<div class="row">
+    <div class="container">
+        <div class="col-md-4" style="margin-top:10px;margin-bottom:10px;">
+            <button type="button" class="btn btn-success ">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> เพิ่มรถในระบบ
+            </button>
+        </div>
+        <div class="col-md-4"></div>
+        <div class="col-md-4" style="margin-top:10px;margin-bottom:10px;">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="ค้นหารถในระบบ">
+                <span class="input-group-btn">
+                    <button class="btn btn-secondary" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>&nbsp;ค้นหา</button>
+                </span>
+            </div><!-- /input-group -->
+        </div>
+    </div>
+</div><!-- /.row -->
+
+<hr /><!--เส้นแบ่งบรรทัด-->
+
+<h3>ข้อมูลระบบ Log On</h3>
+<br />
+<div class="row">
+    <div class="container">
+        <div class="col-md-6 col-md-push-1" style="margin-top:10px;margin-bottom:10px;">
+            <label for="sel1">ชื่อในระบบ : </label>
+            <div class="input-group">
+                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span></span>
+                <input type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
+            </div>
+            <br>
+        </div>
+        <div class="col-md-6 col-md-push-1" style="margin-top:10px;margin-bottom:10px;">
+            <label for="sel1">ประเภทเจ้าของ Username : </label>
+            <div class="input-group">
+                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
+                <select class="form-control" id="sel1">
+                    <option>กรุณาเลือกประเภท...</option>
+                    <option>admin</option>
+                    <option>messenger</option>
+                    <option>tracking</option>
+                </select>
+            </div>
+            <br>
+        </div>
+        <div class="col-md-6 col-md-push-1" style="margin-top:10px;margin-bottom:10px;">
+            <label for="sel1">วันหมดอายุของ Username : </label>
+            <div class="input-group">
+                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+                <!--input type="date" id="hyear" ng-model="inputhdate" class="form-control" aria-describedby="basic-addon1"-->
+                <input type="text" id="datepicker" class="form-control" aria-describedby="basic-addon1" />
+                <script>
+  $( function() {
+    $( "#datepicker" ).datepicker();
+  } );
+                </script>
+            </div>
+            <br>
+        </div>
+        <div class="col-md-6 col-md-push-1" style="margin-top:10px;margin-bottom:10px;">
+
+            <br>
+        </div>
+    </div>
+</div>
+
+<hr /><!--เส้นแบ่งบรรทัด-->
+
+<h3>ข้อมูลรถ</h3>
+<div class="row ws-content">
+    <div class="container">
+
+        <div class="col-md-6 col-md-push-1" style="margin-top:10px;margin-bottom:10px;">
+            <label for="sel1">ทะเบียนรถ : </label>
+            <div class="input-group">
+                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-list" aria-hidden="true"></span></span>
+                <input type="text" class="form-control" placeholder="เลขที่" aria-describedby="basic-addon1">
+            </div>
+            <br />
+            <label for="sel1">จังหวัด : </label>
+            <div class="input-group">
+                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span></span>
+                <input type="text" class="form-control" placeholder="จังหวัด" aria-describedby="basic-addon1">
+            </div>
+            <br />
+            <label for="sel1">น้ำหนักตัวรถ (ตัน) : </label>
+            <div class="input-group">
+                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span></span>
+                <input type="text" class="form-control" placeholder="น้ำหนักตัวรถ (ตัน)" aria-describedby="basic-addon1">
+            </div>
+            <br />
+        </div>
+        <div class="col-md-6 col-md-push-1" style="margin-top:10px;margin-bottom:10px;">
+            <label for="sel1">ลักษณะยานพาหนะ : </label>
+            <div class="input-group">
+                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span></span>
+                <textarea type="text" class="form-control" placeholder="ลักษณะยานพาหนะ" aria-describedby="basic-addon1" rows="8"></textarea>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<hr /><!--เส้นแบ่งบรรทัด-->
+
+<h3>ข้อมูลผู้ใช้ในระบบ ผู้ขับรถ</h3>
+<br />
+<div class="row">
+    <div class="container">
+
+        <div class="col-md-6 col-md-push-1" style="margin-top:10px;margin-bottom:10px;">
+            <label for="sel1">ชื่อ : </label>
+            <div class="input-group">
+                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
+                <input type="text" class="form-control" placeholder="ชื่อ" aria-describedby="basic-addon1">
+            </div>
+            <br />
+            <label for="sel1">นามสกุล : </label>
+            <div class="input-group">
+                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-tree-deciduous" aria-hidden="true"></span></span>
+                <input type="text" class="form-control" placeholder="นามสกุล" aria-describedby="basic-addon1">
+            </div>
+            <br />
+            <label for="sel1">เบอร์โทรศัพท์ : </label>
+            <div class="input-group">
+                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span></span>
+                <input type="text" class="form-control" placeholder="เบอร์โทรศัพท์" aria-describedby="basic-addon1">
+            </div>
+            <br />
+            <label for="sel1">หมายเลขพนักงาน : </label>
+            <div class="input-group">
+                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-tag" aria-hidden="true"></span></span>
+                <input type="text" class="form-control" placeholder="หมายเลขพนักงาน" aria-describedby="basic-addon1">
+            </div>
+            <br />
+            <label for="sel1">ใบขับขี่เลขที่ : </label>
+            <div class="input-group">
+                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-credit-card" aria-hidden="true"></span></span>
+                <input type="text" class="form-control" placeholder="ใบขับขี่เลขที่" aria-describedby="basic-addon1">
+            </div>
+            <br />
+        </div>
+        <div class="col-md-6 col-md-push-1" style="margin-top:10px;margin-bottom:10px;">
+            <label for="sel1">ที่อยู่ : </label>
+            <div class="input-group">
+                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span></span>
+                <textarea type="text" class="form-control" placeholder="ที่อยู่" aria-describedby="basic-addon1" rows="5"></textarea>
+            </div>
+            <br />
+            <label for="sel1">รูปภาพ : </label>
+            <div class="input-group">
+                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-picture" aria-hidden="true"></span></span>
+                <textarea type="text" class="form-control" placeholder="รูปภาพ" aria-describedby="basic-addon1" rows="8"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr /><!--เส้นแบ่งบรรทัด-->
+
+<div class="row">
+    <div class="container">
+        <div class="col-lg-4"></div>
+        <div class="col-lg-4">
+            <button class="btn btn-success" style="margin-right:20px;margin-left:20px;"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>&nbsp;เพิ่ม</button>
+            <button class="btn btn-danger" style="margin-right:20px;margin-left:20px;"><span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>&nbsp;ลบ</button>
+        </div>
+        <div class="col-lg-4"></div>
+    </div>
+</div>
+
+
