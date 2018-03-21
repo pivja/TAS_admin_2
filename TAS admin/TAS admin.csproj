@@ -204,6 +204,7 @@
     <Content Include="Scripts\angular-touch.min.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
+    <Content Include="Scripts\app\Alert.js" />
     <Content Include="Scripts\app\app.js" />
     <Content Include="Scripts\app\Webservices.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -972,11 +973,13 @@
     <Content Include="Scripts\i18n\angular-locale_zh.js" />
     <Content Include="Scripts\i18n\angular-locale_zu-za.js" />
     <Content Include="Scripts\i18n\angular-locale_zu.js" />
-    <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
-    <Content Include="Scripts\jquery-3.0.0.js" />
-    <Content Include="Scripts\jquery-3.0.0.min.js" />
-    <Content Include="Scripts\jquery-3.0.0.slim.js" />
-    <Content Include="Scripts\jquery-3.0.0.slim.min.js" />
+    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.3.1.js" />
+    <Content Include="Scripts\jquery-3.3.1.min.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.3.1.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -1028,17 +1031,14 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Admin_manage\Truck_information.cshtml" />
     <Content Include="Scripts\version.json" />
     <Content Include="Views\Admin_manage\Job_Management.cshtml" />
-    <Content Include="Views\Admin_manage\Any_From_Person.cshtml" />
-    <Content Include="Views\Admin_manage\Edit_Truck.cshtml" />
+    <Content Include="Views\Admin_manage\Person.cshtml" />
+    <Content Include="Views\Admin_manage\Truck_Edit.cshtml" />
     <Content Include="Views\Admin_manage\History.cshtml" />
-    <Content Include="Views\Admin_manage\Truck_information1.cshtml" />
-    <Content Include="Views\Admin_manage\History_id.cshtml" />
-    <Content Include="Views\Admin_manage\Truck_information1_id.cshtml" />
-    <Content Include="Scripts\jquery-3.0.0.slim.min.map" />
-    <Content Include="Scripts\jquery-3.0.0.min.map" />
+    <Content Include="Views\Admin_manage\Truck_Information.cshtml" />
+    <Content Include="Views\Admin_manage\History_Single.cshtml" />
+    <Content Include="Views\Admin_manage\Truck_Information_Single.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />
     <Content Include="Scripts\umd\popper.js.map" />
     <Content Include="Scripts\umd\popper-utils.min.js.map" />
@@ -1048,7 +1048,11 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
-    <Content Include="Views\Admin_manage\Edit_personal.cshtml" />
+    <Content Include="Views\Admin_manage\Person_Edit.cshtml" />
+    <Content Include="Views\Admin_manage\Job_Management_Single.cshtml" />
+    <Content Include="Views\Admin_manage\Person_Single.cshtml" />
+    <Content Include="Views\Admin_manage\Truck_Insert.cshtml" />
+    <Content Include="Views\Admin_manage\Truck_Insert_Complete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

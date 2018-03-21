@@ -19,37 +19,55 @@ namespace TAS_admin.Controllers
 
             return View();
         }
-        public ActionResult Truck_information()
+		public ActionResult Job_Management_Single()
+		{
+			ViewBag.Message = "Your application description page.";
+
+			return View();
+		}
+		public ActionResult Truck_information()
         {
             ViewBag.Message = "Your application description page.";
 
             return View();
         }
-		public ActionResult Truck_information1()
+		public ActionResult Truck_Insert()
 		{
 			ViewBag.Message = "Your application description page.";
 
 			return View();
 		}
-		public ActionResult Truck_information1_id()
+		public ActionResult Truck_Insert_Complete()
 		{
 			ViewBag.Message = "Your application description page.";
 
 			return View();
 		}
-		public ActionResult Any_From_Person()
+		public ActionResult Truck_information_Single()
 		{
 			ViewBag.Message = "Your application description page.";
 
 			return View();
 		}
-		public ActionResult Edit_Truck()
+		public ActionResult Person()
 		{
 			ViewBag.Message = "Your application description page.";
 
 			return View();
 		}
-		public ActionResult Edit_personal()
+		public ActionResult Person_Single()
+		{
+			ViewBag.Message = "Your application description page.";
+
+			return View();
+		}
+		public ActionResult Person_Edit()
+		{
+			ViewBag.Message = "Your application description page.";
+
+			return View();
+		}
+		public ActionResult Truck_Edit()
 		{
 			ViewBag.Message = "Your application description page.";
 
@@ -61,7 +79,7 @@ namespace TAS_admin.Controllers
 
 			return View();
 		}
-		public ActionResult History_id()
+		public ActionResult History_Single()
 		{
 			ViewBag.Message = "Your application description page.";
 

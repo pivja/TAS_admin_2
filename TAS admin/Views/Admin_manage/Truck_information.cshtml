@@ -2,81 +2,46 @@
 @{
     ViewBag.Title = "Truck_information";
 }
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-<h2>รถบรรทุกทั้งหมด</h2>
 <br />
-
-<div class="container">
-    <hr>
-    <div class="media">
-        <div class="media-left">
-            <img src="http://files.softicons.com/download/internet-icons/user-icons-by-2shi/png/256/user1.png" class="media-object" style="width:60px">
-        </div>
-        <div class="media-body">
-            <h4 class="media-heading">ปริญญา นามสกุล  <small><i>312045634</i></small></h4>
-            <div class="row">
-                <div class="col-sm-2" style="">
-                </div>
-                <div class="col-sm-5" style="">
-                    <p>ใบขับขี่เลขที่ : 0320100</p>
-                    <p>ที่อยู่ : 40 ถ.สุขุมวิทย์ อำเภอ.บางละมุง จังหวัด.ชลบุรี.</p>
-                    <p>โทร : 098046032</p>
-                </div>
-                <div class="col-sm-5" style="">
-                    <p>ทะเบียนรถ : ทบ 1302</p>
-                    <p>จังหวัด : ชลบุรี</p>
-                    <p>น้ำหนัก : 200 k.</p>
-                </div>
-
-            </div>
-        </div>
-        <hr>
-        <div class="media">
-            <div class="media-left">
-                <img src="http://files.softicons.com/download/internet-icons/user-icons-by-2shi/png/256/user1.png" class="media-object" style="width:60px">
-            </div>
-            <div class="media-body">
-                <h4 class="media-heading">สมหมาย นามสกุล  <small><i>1046789664</i></small></h4>
-                <div class="row">
-                    <div class="col-sm-2" style="">
-                    </div>
-                    <div class="col-sm-5" style="">
-                        <p>ใบขับขี่เลขที่ : 0320100</p>
-                        <p>ที่อยู่ : 40 ถ.สุขุมวิทย์ อำเภอ.บางละมุง จังหวัด.ชลบุรี.</p>
-                        <p>โทร : 098046032</p>
-                    </div>
-                    <div class="col-sm-5" style="">
-                        <p>ทะเบียนรถ : ทบ 1302</p>
-                        <p>จังหวัด : ชลบุรี</p>
-                        <p>น้ำหนัก : 200 k.</p>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-        <hr>
-        <div class="media">
-            <div class="media-left">
-                <img src="http://files.softicons.com/download/internet-icons/user-icons-by-2shi/png/256/user1.png" class="media-object" style="width:60px">
-            </div>
-            <div class="media-body">
-                <h4 class="media-heading">สมศักดิ์ นามสกุล  <small><i>454054201</i></small></h4>
-                <div class="row">
-                    <div class="col-sm-2" style="">
-                    </div>
-                    <div class="col-sm-5" style="">
-                        <p>ใบขับขี่เลขที่ : 0320100</p>
-                        <p>ที่อยู่ : 40 ถ.สุขุมวิทย์ อำเภอ.บางละมุง จังหวัด.ชลบุรี.</p>
-                        <p>โทร : 098046032</p>
-                    </div>
-                    <div class="col-sm-5" style="">
-                        <p>ทะเบียนรถ : ทบ 1302</p>
-                        <p>จังหวัด : ชลบุรี</p>
-                        <p>น้ำหนัก : 200 k.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="row">
+	<div class="container">
+		<div class="col-lg-6" align="left">
+			<h2>รถบรรทุกทั้งหมด</h2>
+		</div>
+		<div class="col-lg-6" align="right" style="padding:25px;">
+			<button type="button" class="btn btn-default btn-sm">@Html.ActionLink("เพิ่มข้อมูลรถ", "Truck_Insert", "Admin_manage")</button>
+		</div>
+	</div>
 </div>
+
+<br /><br />
+	  <div >
+	  	<div class="row ws-content">
+	  		<div class="container">
+	  			<div class="table-responsive-sm">
+	  				<table class="table" ng-app="" ng-controller="">
+	  					<thead>
+	  						<tr>
+	  							<th>ทะเบียนรถ</th>
+	  							<th>จังหวัด</th>
+	  							<th>รายละเอียดรถ</th>
+	  						</tr>
+	  					</thead>
+	  					<tbody  ฝng-repeat="item in Messenger" style="padding-top:5px;">
+							<tr>
+								<td>บพ 9999</td>
+								<td>ชลบุรี</td>
+								<td>
+									<button type="button" class="btn btn-default btn-sm">@Html.ActionLink("//ทะเบียนรถ", "Truck_Information_Single", "Admin_manage")</button>
+								</td>
+							</tr>
+	  	</tbody>
+	  </table>
+	  </div>
+	  </div>
+	  </div>
+	  </div>
+
+

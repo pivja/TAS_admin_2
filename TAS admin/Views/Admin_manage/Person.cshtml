@@ -1,0 +1,37 @@
+﻿
+@{
+	ViewBag.Title = "AnyFromPerson";
+}
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<br />
+<h2>รายชื่อในระบบทั้งหมด</h2>
+<br /><br />
+<div class="row ws-content">
+	<div class="container">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>ชื่อ นามสกุล</th>
+					<th>ชื่อในระบบ</th>
+					<th>ประเภทจ้าของ Username</th>
+					<th>หมายเหตุ</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>คนึง โรจน์เพียรธรรม</td>
+					<td>knuing001</td>
+					<td>Truck Driver</td>
+					<td><button type="button" class="btn btn-default btn-sm">@Html.ActionLink("//ข้อมูลเฉพาะบุคคล​", "Person_Single", "Admin_manage")</button></td>
+				</tr>
+				<tr>
+					<td>ครองพล อินทะราชา</td>
+					<td>krongpon002</td>
+					<td>Truck Driver</td>
+					<td><button type="button" class="btn btn-default btn-sm">@Html.ActionLink("//ข้อมูลเฉพาะบุคคล​", "Person_Single", "Admin_manage")</button></td>
+				</tr></tbody>
+		</table>
+	</div>
+</div>

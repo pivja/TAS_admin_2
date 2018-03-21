@@ -2,7 +2,6 @@
 @{
     ViewBag.Title = "History";
 }
-
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <br />
 <h2>ประวัติการขนส่ง</h2>
@@ -13,7 +12,7 @@
 			<thead>
 				<tr>
 					<th>สถานะ</th>
-					<th>Shipment No.</th>
+					<th>หมายเลขการจัดส่ง</th>
 					<th>รถขนส่งทะเบียน</th>
 					<th>คนขับรถ</th>
 					<th>หมายเหตุ</th>
@@ -21,11 +20,11 @@
 			</thead>
 			<tbody>
 				<tr>
-					<td>กำลังส่ง</td>
-					<td>312045634</td>
-					<td>ทบ 1302</td>
-					<td>ปริญญา นามสกุล</td>
-					<td><button type="button" class="btn btn-default btn-sm">@Html.ActionLink("รายละเอียด", "History_id", "Admin_manage")</button></td>
+					<td>รับงานจาก Admin สำเร็จแล้ว</td>
+					<td>T0132413E</td>
+					<td>บพ 9999</td>
+					<td>คนึง โรจน์เพียรธรรม</td>
+					<td><button type="button" class="btn btn-default btn-sm">@Html.ActionLink("รายละเอียดการจัดส่ง", "History_Single", "Admin_manage")</button></td>
 				</tr>
 				<tr>
 					<td>Mary</td>
