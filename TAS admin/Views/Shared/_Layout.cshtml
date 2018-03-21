@@ -1,13 +1,15 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
-
-    <link href="~/Content/Site.css" rel="stylesheet" />
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>@ViewBag.Title</title>
+	@Styles.Render("~/Content/css")
+	@Scripts.Render("~/bundles/modernizr")
+	<script src="~/Scripts/angular.js"></script>
+	<script src="~/Scripts/app/app.js"></script>
+	<script src="~/Scripts/app/Webservices.js"></script>
+	<link href="~/Content/Site.css" rel="stylesheet" />
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -18,29 +20,35 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("ระบบติดตามรถขนส่ง", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("ระบบติดตามรถขนส่ง", "Job_Management", "Admin_manage", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Truck information", "Truck_information", "Admin_manage")</li>
-                    <li>@Html.ActionLink("job management", "Job_Management", "Admin_manage")</li>
-                </ul>
-                @Html.Partial("_LoginPartial")
-            </div>
-        </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <div class="footer">
-            <hr />
-            <p>&copy; @DateTime.Now.Year - <a href="http://www.lhits.co.th">Lighthouse IT Solution</a></p>
-        </div>
-       
-    </div>
+				<ul class="nav navbar-nav">
+					<!--li@Html.ActionLink("Truck information", "Truck_information", "Admin_manage")</ li-->
+					<!-- li@Html.ActionLink("job management", "Job_Management", "Admin_manage")</li-->
+					<li>@Html.ActionLink("Personal", "Any_From_Person", "Admin_manage")</li>
+					<li>@Html.ActionLink("History", "History", "Admin_manage")</li>
+					<!--li@Html.ActionLink("History id", "History_id", "Admin_manage")</li-->
+					<li>@Html.ActionLink("Truck Information", "Truck_information1", "Admin_manage")</li>
+					<!--li@Html.ActionLink("Truck Information id", "Truck_information1_id", "Admin_manage")</li-->
+					<li>@Html.ActionLink("Edit truck", "Edit_truck", "Admin_manage")</li>
+					<li>@Html.ActionLink("Edit Personal", "Edit_personal", "Admin_manage")</li>
+				</ul>
+					@Html.Partial("_LoginPartial")
+				</div>
+			</div>
+		</div>
+		<div class="container body-content">
+			@RenderBody()
+			<div class="footer">
+				<hr />
+				<p>&copy; @DateTime.Now.Year - <a href="http://www.lhits.co.th">Lighthouse IT Solution</a></p>
+			</div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
-</body>
-</html>
+		</div>
+
+		@Scripts.Render("~/bundles/jquery")
+		@Scripts.Render("~/bundles/bootstrap")
+		@RenderSection("scripts", required: false)
+	</body>
+	</html>

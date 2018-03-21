@@ -4,9 +4,36 @@
 }
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
+<br />
 <h2>รถบรรทุกทั้งหมด</h2>
-
-<div class="d-block bg-primary">Block</div>
+<br /><br />
+	  <div >
+	  	<div class="row ws-content">
+	  		<div class="container">
+	  			<div class="table-responsive-sm">
+	  				<table class="table" ng-app="myApp" ng-controller="GETMessenger">
+	  					<thead>
+	  						<tr>
+	  							<th>ทะเบียนรถ</th>
+	  							<th>จังหวัด</th>
+	  							<th>ชื่อผู้ขับรถ</th>
+	  							<th>รายละเอียดรถ</th>
+	  						</tr>
+	  					</thead>
+	  					<tbody  ng-repeat="item in Messenger" style="padding-top:5px;">
+							<tr>
+								<td>ทบ 1302</td>
+								<td>ชลบุรี</td>
+								<td>{{item.name_surename}}</td>
+								<td>
+									<button type="button" class="btn btn-default btn-sm">@Html.ActionLink("//ทะเบียนรถ", "Truck_information1_id", "Admin_manage")</button>
+								</td>
+							</tr>
+	  	</tbody>
+	  </table>
+	  </div>
+	  </div>
+	  </div>
+	  </div>
 
 

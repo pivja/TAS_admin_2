@@ -49,6 +49,12 @@ namespace TAS_admin.Controllers
 
 			return View();
 		}
+		public ActionResult Edit_personal()
+		{
+			ViewBag.Message = "Your application description page.";
+
+			return View();
+		}
 		public ActionResult History()
 		{
 			ViewBag.Message = "Your application description page.";
@@ -61,6 +67,7 @@ namespace TAS_admin.Controllers
 
 			return View();
 		}
+		
 
 
 

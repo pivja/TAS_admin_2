@@ -4,39 +4,28 @@
 }
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-<h2>ประวัติการขนส่ง</h2>
 <br />
+<h2>ประวัติการขนส่ง</h2>
+<br /><br />
 <div class="row ws-content">
 	<div class="container">
-		<div style="padding-top:30px; padding-bottom:30px;border: 1px solid black;">
-			<div class="col-md-3" align="center">Shipment No.</div>
-			<div class="col-md-3" align="center">Truck No.</div>
-			<div class="col-md-3" align="center">Driver</div>
-			<div class="col-md-3" align="center">Status</div>
-		</div>
-		<br />
-		<div class="list-inline" style="padding-top:5px;padding-bottom:5px;">
-			<div class="col-md-3" align="center">312045634</div>
-			<div class="col-md-3" align="center">ทบ 1302</div>
-			<div class="col-md-3" align="center">ปริญญา นามสกุล</div>
-			<div class="col-md-3" align="center">กำลังส่ง</div>
-		</div>
 		<table class="table">
 			<thead>
 				<tr>
+					<th>สถานะ</th>
 					<th>Shipment No.</th>
-					<th>Truck No.</th>
-					<th>Driver</th>
-					<th>Status</th>
+					<th>รถขนส่งทะเบียน</th>
+					<th>คนขับรถ</th>
+					<th>หมายเหตุ</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
+					<td>กำลังส่ง</td>
 					<td>312045634</td>
 					<td>ทบ 1302</td>
 					<td>ปริญญา นามสกุล</td>
-					<td>กำลังส่ง</td>
+					<td><button type="button" class="btn btn-default btn-sm">@Html.ActionLink("รายละเอียด", "History_id", "Admin_manage")</button></td>
 				</tr>
 				<tr>
 					<td>Mary</td>

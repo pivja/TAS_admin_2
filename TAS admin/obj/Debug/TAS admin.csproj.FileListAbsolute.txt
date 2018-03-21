@@ -109,3 +109,59 @@ C:\Users\pi-v notebook\Desktop\TAS admin\TAS admin\obj\Debug\TAS admin.csprojRes
 C:\Users\pi-v notebook\Desktop\TAS admin\TAS admin\obj\Debug\TAS admin.csproj.CoreCompileInputs.cache
 C:\Users\pi-v notebook\Desktop\TAS admin\TAS admin\obj\Debug\TAS admin.dll
 C:\Users\pi-v notebook\Desktop\TAS admin\TAS admin\obj\Debug\TAS admin.pdb
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\TAS admin.dll.config
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\TAS admin.dll
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\TAS admin.pdb
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\Antlr3.Runtime.dll
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\EntityFramework.dll
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\EntityFramework.SqlServer.dll
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\Microsoft.AspNet.Identity.Core.dll
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\Microsoft.AspNet.Identity.Owin.dll
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\Microsoft.Owin.dll
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\Microsoft.Owin.Host.SystemWeb.dll
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\Microsoft.Owin.Security.Cookies.dll
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\Microsoft.Owin.Security.dll
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\Microsoft.Owin.Security.Facebook.dll
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\Microsoft.Owin.Security.Google.dll
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\Microsoft.Owin.Security.OAuth.dll
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\Microsoft.Owin.Security.Twitter.dll
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\Microsoft.Web.Infrastructure.dll
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\Newtonsoft.Json.dll
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\Owin.dll
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\System.Web.Helpers.dll
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\System.Web.Mvc.dll
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\System.Web.Optimization.dll
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\System.Web.Razor.dll
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\System.Web.WebPages.Deployment.dll
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\System.Web.WebPages.dll
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\System.Web.WebPages.Razor.dll
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\WebGrease.dll
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\System.Web.Helpers.xml
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\System.Web.Mvc.xml
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\System.Web.Optimization.xml
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\System.Web.Razor.xml
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\System.Web.WebPages.xml
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\System.Web.WebPages.Deployment.xml
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\System.Web.WebPages.Razor.xml
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\Antlr3.Runtime.pdb
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\Newtonsoft.Json.xml
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\EntityFramework.xml
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\EntityFramework.SqlServer.xml
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\Microsoft.AspNet.Identity.Core.xml
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\Microsoft.AspNet.Identity.Owin.xml
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\Microsoft.Owin.xml
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\Microsoft.Owin.Security.xml
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\Microsoft.Owin.Security.Facebook.xml
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\Microsoft.Owin.Security.Cookies.xml
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\Microsoft.Owin.Security.OAuth.xml
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\Microsoft.Owin.Security.Google.xml
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\Microsoft.Owin.Security.Twitter.xml
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\obj\Debug\TAS admin.csprojResolveAssemblyReference.cache
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\obj\Debug\TAS admin.csproj.CoreCompileInputs.cache
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\obj\Debug\TAS admin.dll
+D:\งาน สหกิจ\TMS\TAS admin\MyFirstProject\TAS admin\obj\Debug\TAS admin.pdb
