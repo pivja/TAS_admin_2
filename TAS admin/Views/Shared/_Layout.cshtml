@@ -38,14 +38,15 @@
 				</div>
 			</div>
 		</div>
-		<div class="container body-content">
-			@RenderBody()
-			<div class="footer">
-				<hr />
-				<p>&copy; @DateTime.Now.Year - <a href="http://www.lhits.co.th">Lighthouse IT Solution</a></p>
-			</div>
-
+	<div class="container body-content">
+		<br />
+		@RenderBody()
+		<div class="footer">
+			<hr />
+			<p>&copy; @DateTime.Now.Year - <a href="http://www.lhits.co.th">Lighthouse IT Solution</a></p>
 		</div>
+
+	</div>
 
 		@Scripts.Render("~/bundles/jquery")
 		@Scripts.Render("~/bundles/bootstrap")
