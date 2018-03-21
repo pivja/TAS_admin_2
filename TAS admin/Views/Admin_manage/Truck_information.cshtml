@@ -1,47 +1,49 @@
 ﻿
 @{
-    ViewBag.Title = "Truck_information";
+	ViewBag.Title = "Truck_information";
 }
-
+<link href="~/Content/Search.css" rel="stylesheet" />
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <br />
 <div class="row">
 	<div class="container">
 		<div class="col-lg-6" align="left">
-			<h2>รถบรรทุกทั้งหมด</h2>
+			<h2>รถบรรทุกทั้งหมด</h2><br />
+			<button type="button" class="btn btn-default btn-sm">@Html.ActionLink("เพิ่มข้อมูลรถ", "Truck_Insert", "Admin_manage")</button>
 		</div>
 		<div class="col-lg-6" align="right" style="padding:25px;">
-			<button type="button" class="btn btn-default btn-sm">@Html.ActionLink("เพิ่มข้อมูลรถ", "Truck_Insert", "Admin_manage")</button>
+			<form>
+				<input type="text" name="search" placeholder="Search" align="right">
+			</form>
 		</div>
 	</div>
 </div>
-
 <br /><br />
-	  <div >
-	  	<div class="row ws-content">
-	  		<div class="container">
-	  			<div class="table-responsive-sm">
-	  				<table class="table" ng-app="" ng-controller="">
-	  					<thead>
-	  						<tr>
-	  							<th>ทะเบียนรถ</th>
-	  							<th>จังหวัด</th>
-	  							<th>รายละเอียดรถ</th>
-	  						</tr>
-	  					</thead>
-	  					<tbody  ฝng-repeat="item in Messenger" style="padding-top:5px;">
-							<tr>
-								<td>บพ 9999</td>
-								<td>ชลบุรี</td>
-								<td>
-									<button type="button" class="btn btn-default btn-sm">@Html.ActionLink("//ทะเบียนรถ", "Truck_Information_Single", "Admin_manage")</button>
-								</td>
-							</tr>
-	  	</tbody>
-	  </table>
-	  </div>
-	  </div>
-	  </div>
-	  </div>
+<div>
+	<div class="row ws-content">
+		<div class="container">
+			<div class="table-responsive-sm">
+				<table class="table" ng-app="" ng-controller="">
+					<thead>
+						<tr>
+							<th>ทะเบียนรถ</th>
+							<th>จังหวัด</th>
+							<th>รายละเอียดรถ</th>
+						</tr>
+					</thead>
+					<tbody ฝng-repeat="item in Messenger" style="padding-top:5px;">
+						<tr>
+							<td>บพ 9999</td>
+							<td>ชลบุรี</td>
+							<td>
+								<button type="button" class="btn btn-default btn-sm">@Html.ActionLink("//ทะเบียนรถ", "Truck_Information_Single", "Admin_manage")</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
 
 

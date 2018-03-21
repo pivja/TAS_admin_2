@@ -1,12 +1,22 @@
 ﻿
 @{
-	ViewBag.Title = "AnyFromPerson";
+	ViewBag.Title = "Person";
 }
-
-
+<link href="~/Content/Search.css" rel="stylesheet" />
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <br />
-<h2>รายชื่อในระบบทั้งหมด</h2>
+<div class="row">
+	<div class="container">
+		<div class="col-lg-6" align="left">
+			<h2>รายชื่อในระบบทั้งหมด</h2>
+		</div>
+		<div class="col-lg-6" align="right" style="padding:25px;">
+			<form>
+				<input type="text" name="search" placeholder="Search" align="right">
+			</form>
+		</div>
+	</div>
+</div>
 <br /><br />
 <div class="row ws-content">
 	<div class="container">

@@ -114,7 +114,7 @@
 			<div class="col-sm-4" align="center">
 				<button type="submit" class="btn btn-success" style="margin:5px;"> @Html.ActionLink("ตกลง", "Person_Single", "Admin_manage", new { @style = "color:white;" })</button>
 				<button type="reset" class="btn btn-warning" style="margin:5px;" font color="white">เคลียร์ข้อมูล</button>
-				<button type="button" class="btn btn-danger" style="margin:5px;">@Html.ActionLink("ลบรายชื่อนี้", "Person_Edit", "Admin_manage", new { @style = "color:white;" })</button>
+				<button type="button" class="btn btn-danger" style="margin:5px;" onclick="delbutton()">@Html.ActionLink("ลบรายชื่อนี้", "Person_Edit", "Admin_manage", new { @style = "color:white;" })</button>
 			</div>
 			<div class="col-sm-4">
 			</div>
@@ -128,6 +128,16 @@
 		for (var i = 0; i < total_file; i++) {
 			$('#image_preview').append("<div class='col-md-3'><img class='img-responsive' src='" + URL.createObjectURL(event.target.files[i]) + "'></div>");
 		}
+	}
+	function delbutton() {
+		var txt;
+		var r = confirm("คุณแน่ใจว่าจะลบรายชื่อนี้ !!");
+		if (r == true) {
+			txt = "You pressed OK!";
+		} else {
+			txt = "You pressed Cancel!";
+		}
+		document.getElementById("demo").innerHTML = txt;
 	}
 </script>
 
