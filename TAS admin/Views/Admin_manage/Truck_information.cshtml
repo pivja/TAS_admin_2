@@ -8,8 +8,8 @@
 <div class="row">
 	<div class="container">
 		<div class="col-lg-6" align="left">
-			<h2>รถบรรทุกทั้งหมด</h2><br />
-			<button type="button" class="btn btn-default btn-sm">@Html.ActionLink("เพิ่มข้อมูลรถ", "Truck_Insert", "Admin_manage")</button>
+			<h2>รถบรรทุกทั้งหมด</h2>
+			<button class="btn btn-info">+&nbsp;@Html.ActionLink("เพิ่มข้อมูลรถ", "Truck_Insert", "Admin_manage", new { @style = "color:white;" })</button> 
 		</div>
 		<div class="col-lg-6" align="right" style="padding:25px;">
 			<form>
@@ -18,32 +18,80 @@
 		</div>
 	</div>
 </div>
-<br /><br />
-<div>
-	<div class="row ws-content">
-		<div class="container">
-			<div class="table-responsive-sm">
-				<table class="table" ng-app="" ng-controller="">
-					<thead>
-						<tr>
-							<th>ทะเบียนรถ</th>
-							<th>จังหวัด</th>
-							<th>รายละเอียดรถ</th>
-						</tr>
-					</thead>
-					<tbody ฝng-repeat="item in Messenger" style="padding-top:5px;">
-						<tr>
-							<td>บพ 9999</td>
-							<td>ชลบุรี</td>
-							<td>
-								<button type="button" class="btn btn-default btn-sm">@Html.ActionLink("//ทะเบียนรถ", "Truck_Information_Single", "Admin_manage")</button>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
+
+<div class="row">
+	<div class="container">
+		<div class="col-lg-6">
+			<h3>DB:gpsdata > Table:devices</h3><br />
+			<table class="table" ng-app="" ng-controller="">
+				<!--method get-->
+				<thead>
+					<tr>
+						<th>id</th>
+						<th>description</th>
+						<th>iconType</th>
+						<th>name</th>
+						<th>uniqueId</th>
+					</tr>
+				</thead>
+				<tbody ฝng-repeat="item in Messenger" style="padding-top:5px;">
+					<tr>
+						<td>1</td>
+						<td>6887</td>
+						<td>SEDAN</td>
+						<td>6887</td>
+						<td>131566</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="col-lg-6">
+			<h3>DB:tms > Table:truck_mas</h3><br />
+			<table class="table" ng-app="" ng-controller="">
+				<!--method post-->
+				<thead>
+					<tr>
+						<th>id</th>
+						<th>truckno</th>
+						<th>trucktype</th>
+					
+						<th>gpsdevice</th>
+						<th>command</th>
+					</tr>
+				</thead>
+				<tbody ฝng-repeat="item in Messenger" style="padding-top:5px;">
+					<tr>
+						<td>1</td>
+						<td>7221</td>
+						<td></td>
+						
+						<td>3</td>
+						<td>
+							<button type="button" class="btn btn-warning" text color="white">แก้ไข</button>
+							<button type="button" class="close" aria-label="Close" onclick="delbutton()" style="margin:5px;">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 	</div>
 </div>
 
+<script>
+	function delbutton() {
+		var txt;
+		var r = confirm("คุณแน่ใจว่าจะลบรายชื่อนี้ !!");
+		if (r == true) {
+			txt = "You pressed OK!";
+		} else {
+			txt = "You pressed Cancel!";
+		}
+		document.getElementById("demo").innerHTML = txt;
+	}
+</script>
 
+@section Scripts {
+	@Scripts.Render("~/bundles/jqueryval")
+}

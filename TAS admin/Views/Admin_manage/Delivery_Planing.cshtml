@@ -1,0 +1,166 @@
+﻿
+@{
+	ViewBag.Title = "Delivery Planing";
+}
+
+<h2>จัดแผนขนส่ง</h2><hr />
+<form>
+<div class="row">
+	<div class="container">
+		<div class="col-md-4" style="margin-top:10px;margin-bottom:10px;">
+			<label for="sel1">Shipment No. : </label>
+			<div class="input-group">
+				<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
+				<input type="text" class="form-control" value="123456789" aria-describedby="basic-addon1">
+			</div>
+		</div>
+		<div class="col-md-4" style="margin-top:10px;margin-bottom:10px;">
+			<label for="sel1">ชื่อคนขับรถ (Driver) : </label>
+			<div class="input-group">
+				<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span></span>
+				<input type="text" class="form-control" value="คนึง โรจน์เพียรธรรม" aria-describedby="basic-addon1">
+			</div>
+		</div>
+		<div class="col-md-4" style="margin-top:10px;margin-bottom:10px;">
+			<label for="sel1">หมายเลขทะเบียนรถ (Truck No.): </label>
+			<div class="input-group">
+				<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span></span>
+				<input type="text" class="form-control" value="บพ 9999" aria-describedby="basic-addon1">
+			</div>
+		</div>
+	</div>
+</div>
+<hr />
+<div class="row">
+	<div class="container">
+		<div class="col-md-3" style="margin-top:10px;margin-bottom:10px;">
+			<label for="sel1">Delivery No. : </label>
+			<div class="input-group">
+				<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></span>
+				<select class="form-control" id="sel1">
+					<option>Delivery No...</option>
+					<option>T0132413E</option>
+					<option>B1032564A</option>
+				</select>
+			</div>
+		</div>
+		<div class="col-md-2 col-md-push-1" style="margin-top:10px;margin-bottom:10px;">
+			<fieldset disabled>
+				<label for="sel1">Order No. : </label>
+				<div class="input-group">
+					<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span></span>
+					<input type="text" class="form-control" value="1" aria-describedby="basic-addon1">
+				</div>
+			</fieldset>
+		</div>
+		<div class="col-md-6 col-md-push-2" style="margin-top:10px;margin-bottom:10px;">
+			<label for="sel1">วันนัดการจัดส่ง (Due Date) : </label>
+			<div class="input-group">
+				<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+				<input type="date" value="2018-02-22" class="form-control" aria-describedby="basic-addon1">
+
+			</div>
+		</div>
+		<div class="col-md-6 col-md-push-1" style="margin-top:10px;margin-bottom:10px;">
+			<label for="sel1">คลังสินค้าต้นทาง (Loading Station) : </label>
+			<div class="input-group">
+				<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span></span>
+				<select class="form-control" id="sel1">
+					<option>Loading Station...</option>
+					<option>แหลมฉบัง</option>
+					<option>สนามบินอู่ตะเภา</option>
+				</select>
+			</div>
+		</div>
+		<div class="col-md-6 col-md-push-1" style="margin-top:10px;margin-bottom:10px;">
+			<label for="sel1">จุดหมายปลายทาง (Destination Station) : </label>
+			<div class="input-group">
+				<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span></span>
+				<select class="form-control" id="sel1">
+					<option>Destination...</option>
+					<option>BigC</option>
+					<option>Hitachi ระยอง</option>
+					<option>อมตะนคร</option>
+				</select>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="container">
+		<div class="col-sm-4"></div>
+		<div class="col-sm-4" align="center">
+			<button type="submit" class="btn btn-info" style="margin:5px;" font color="white" ng-click="setAdddata3()">เพิ่มข้อมูล</button>
+			<button type="reset" class="btn btn-warning" style="margin:5px;" font color="white">เคลียร์ข้อมูล</button>
+		</div>
+		<div class="col-sm-4">
+		</div>
+	</div>
+</div>
+</form>
+<hr />
+<div class="row ws-content">
+	<div class="container">
+		<div class="table-responsive-sm">
+			<table class="table" ng-app="" ng-controller="">
+				<thead>
+					<tr>
+						<th>Shipment No.</th>
+						<th>Driver</th>
+						<th>Truck No.</th>
+						<th>Delivery No.</th>
+						<th>Order No.</th>
+						<th>Due Date</th>
+						<th>Loading Station</th>
+						<th>Destination Station</th>
+						<th>command</th>
+					</tr>
+				</thead>
+				<tbody ฝng-repeat="item in Messenger" style="padding-top:5px;">
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td>
+							<button type="button" class="btn btn-warning" text color="white">แก้ไข</button>
+							<button type="button" class="close" aria-label="Close" onclick="delbutton()" style="margin:5px;">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="container">
+		<div class="col-lg-4"></div>
+		<div class="col-lg-4">
+			<button type="submit" class="btn btn-success" style="margin-top:5px;" font color="white">SAVE</button>
+		</div>
+		<div class="col-lg-4"></div>
+	</div>
+</div>
+
+<script>
+	function delbutton() {
+		var txt;
+		var r = confirm("คุณแน่ใจว่าจะลบรายชื่อนี้ !!");
+		if (r == true) {
+			txt = "You pressed OK!";
+		} else {
+			txt = "You pressed Cancel!";
+		}
+		document.getElementById("demo").innerHTML = txt;
+	}
+</script>
+
+@section Scripts {
+	@Scripts.Render("~/bundles/jqueryval")
+}

@@ -10,7 +10,7 @@ namespace TAS_admin.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+			return RedirectToAction("Delivery_Planing", "Admin_manage",  new { area = "Admin_manageController" });
         }
 
         public ActionResult About()

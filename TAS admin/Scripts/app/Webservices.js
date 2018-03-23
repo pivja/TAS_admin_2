@@ -17,4 +17,25 @@ app.controller('myCtrl11', function ($scope, $http) {
 	}, function myError(response) {
 		$scope.Messenger = response.statusText;
 	});
+})
+app.controller('GETGPS_DATA_devices', function ($scope, $http) {
+	$http({
+		method: "GET",
+		url: "http://119.59.122.157/tms/GPS_DATA_devices"
+	}).then(function mySuccess(response) {
+		$scope.Messenger = response.data;
+	}, function myError(response) {
+		$scope.Messenger = response.statusText;
+	});
+})
+app.controller('GETMessenger_join', function ($scope, $http) {
+	$http({
+		method: "GET",
+		url: "http://119.59.122.157/tms/Messenger_join"
+	}).then(function mySuccess(response) {
+		$scope.Messenger = response.data;
+	}, function myError(response) {
+		$scope.Messenger = response.statusText;
+	});
 });
+

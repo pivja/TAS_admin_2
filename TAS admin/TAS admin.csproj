@@ -1053,6 +1053,7 @@
     <Content Include="Views\Admin_manage\Person_Single.cshtml" />
     <Content Include="Views\Admin_manage\Truck_Insert.cshtml" />
     <Content Include="Views\Admin_manage\Truck_Insert_Complete.cshtml" />
+    <Content Include="Views\Admin_manage\Delivery_Planing.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

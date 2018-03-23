@@ -11,8 +11,8 @@ namespace TAS_admin.Controllers
         // GET: Admin_manage
         public ActionResult Index()
         {
-            return View();
-        }
+			return View();
+		}
         public ActionResult Job_Management()
         {
             ViewBag.Message = "Your application description page.";
@@ -85,7 +85,18 @@ namespace TAS_admin.Controllers
 
 			return View();
 		}
-		
+		public ActionResult Tracking()
+		{
+			ViewBag.Message = "Your application description page.";
+
+			return Redirect("http://119.59.122.157:8082/");
+		}
+		public ActionResult Delivery_Planing()
+		{
+			ViewBag.Message = "Your application description page.";
+
+			return View();
+		}
 
 
 

@@ -18,30 +18,29 @@
 	</div>
 </div>
 <br /><br />
-<div class="row ws-content">
-	<div class="container">
-		<table class="table">
-			<thead>
-				<tr>
-					<th>ชื่อ นามสกุล</th>
-					<th>ชื่อในระบบ</th>
-					<th>ประเภทจ้าของ Username</th>
-					<th>หมายเหตุ</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>คนึง โรจน์เพียรธรรม</td>
-					<td>knuing001</td>
-					<td>Truck Driver</td>
-					<td><button type="button" class="btn btn-default btn-sm">@Html.ActionLink("//ข้อมูลเฉพาะบุคคล​", "Person_Single", "Admin_manage")</button></td>
-				</tr>
-				<tr>
-					<td>ครองพล อินทะราชา</td>
-					<td>krongpon002</td>
-					<td>Truck Driver</td>
-					<td><button type="button" class="btn btn-default btn-sm">@Html.ActionLink("//ข้อมูลเฉพาะบุคคล​", "Person_Single", "Admin_manage")</button></td>
-				</tr></tbody>
-		</table>
-	</div>
-</div>
+	  <div class="row ws-content" ng-app="myApp" ng-controller="GETMessenger_join">
+	  	<div class="container">
+	  		<div class="table-responsive-sm">
+	  			<table class="table">
+	  				<thead>
+	  					<tr>
+	  						<th>ชื่อ นามสกุล</th>
+	  						<th>เบอร์โทรศัพท์</th>
+	  						<th>ประเภทรถ</th>
+	  						<th>หมายเลขทะเบียนรถ</th>
+	  						<th>หมายเหตุ</th>
+	  					</tr>
+	  				</thead>
+	  				<tbody>
+	  					<tr ng-repeat="item in Messenger">
+	  						<td>{{item.name_surename}}</td>
+	  						<td>{{item.telnumber}}</td>
+	  						<td>{{item.trucktype}}</td>
+	  						<td>{{item.truckno}}</td>
+	  						<td><button type="button" class="btn btn-primary btn-sm"  ng-click="GETMessenger_id({{item.noid}})"> @Html.ActionLink("ข้อมูลเฉพาะบุคคล​", "Person_Single", "Admin_manage", new { @style = "color:white;" })</button></td>
+	  		</tr>
+	  	</tbody>
+	  </table>
+	  </div>
+	  </div>
+	  </div>

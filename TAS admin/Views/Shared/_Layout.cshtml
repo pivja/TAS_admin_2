@@ -20,19 +20,21 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("ระบบติดตามรถขนส่ง", "Job_Management", "Admin_manage", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("ระบบติดตามรถขนส่ง", "Delivery_Planing", "Admin_manage", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
 					<!--li@Html.ActionLink("Truck information", "Truck_information", "Admin_manage")</ li-->
-					<!-- li@Html.ActionLink("job management", "Job_Management", "Admin_manage")</li-->
+					<!--li@Html.ActionLink("job management", "Job_Management", "Admin_manage")</li-->
 					<li>@Html.ActionLink("Person", "Person", "Admin_manage")</li>
 					<li>@Html.ActionLink("History", "History", "Admin_manage")</li>
 					<!--li@Html.ActionLink("History id", "History_id", "Admin_manage")</li-->
 					<li>@Html.ActionLink("Truck Information", "Truck_Information", "Admin_manage")</li>
+					<li>@Html.ActionLink("Tracking", "Tracking", "Admin_manage")</li>
+					<!--li@Html.ActionLink("Delivery Planing", "Delivery_Planing", "Admin_manage")</li-->
 					<!--li@Html.ActionLink("Truck Information id", "Truck_information1_id", "Admin_manage")</li-->
-					<!--li>@Html.ActionLink("Truck Edit", "Truck_Edit", "Admin_manage")</li-->
-					<!--li>@Html.ActionLink("Person Edit", "Person_Edit", "Admin_manage")</li-->
+					<!--li@Html.ActionLink("Truck Edit", "Truck_Edit", "Admin_manage")</li-->
+					<!--li@Html.ActionLink("Person Edit", "Person_Edit", "Admin_manage")</li-->
 				</ul>
 					@Html.Partial("_LoginPartial")
 				</div>
