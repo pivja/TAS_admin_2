@@ -38,3 +38,31 @@
 		</div>
 	</div>
 </div>
+
+<script>
+	app.controller('GETMessenger_join', function ($scope, $http) {
+		$scope.noid = {}
+		$scope.TESTS = function To_Messenger_id(noid) {
+			$scope.tid = noid;
+			$http.get("http://119.59.122.157/tms/Messenger/" + $scope.tid).then(function (response) {
+				$scope.myWelcome = response.data;
+			});
+		};
+		$scope.isEditData1 = false;
+		$scope.setAdddata1 = function () {
+			if ($scope.isEditData1 === 'false') {
+				$scope.isEditData1 = true;
+			}
+			if ($scope.isEditData1 === 'true') {
+				$scope.isEditData1 = false;
+			}
+			else {
+				$scope.isEditData1 = false;
+			}
+		};
+	});
+</script>
+
+<div class="container" ng-app="myApp" ng-controller="GETMessenger_join" ng-init="TESTS()">
+	{{myWelcome}}
+</div>

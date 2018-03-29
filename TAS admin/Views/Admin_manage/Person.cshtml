@@ -18,29 +18,47 @@
 	</div>
 </div>
 <br /><br />
-	  <div class="row ws-content" ng-app="myApp" ng-controller="GETMessenger_join">
-	  	<div class="container">
-	  		<div class="table-responsive-sm">
-	  			<table class="table">
-	  				<thead>
-	  					<tr>
-	  						<th>ชื่อ นามสกุล</th>
-	  						<th>เบอร์โทรศัพท์</th>
-	  						<th>ประเภทรถ</th>
-	  						<th>หมายเลขทะเบียนรถ</th>
-	  						<th>หมายเหตุ</th>
-	  					</tr>
-	  				</thead>
-	  				<tbody>
-	  					<tr ng-repeat="item in Messenger">
-	  						<td>{{item.name_surename}}</td>
-	  						<td>{{item.telnumber}}</td>
-	  						<td>{{item.trucktype}}</td>
-	  						<td>{{item.truckno}}</td>
-	  						<td><button type="button" class="btn btn-primary btn-sm"  ng-click="GETMessenger_id({{item.noid}})"> @Html.ActionLink("ข้อมูลเฉพาะบุคคล​", "Person_Single", "Admin_manage", new { @style = "color:white;" })</button></td>
-	  		</tr>
-	  	</tbody>
-	  </table>
-	  </div>
-	  </div>
-	  </div>
+<div ng-app="myApp">
+
+	<div class="row ws-content" ng-controller="GETMessenger_join">
+		<div class="container">
+			<div class="table-responsive-sm">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>ชื่อ นามสกุล</th>
+							<th>เบอร์โทรศัพท์</th>
+							<th>ประเภทรถ</th>
+							<th>หมายเลขทะเบียนรถ</th>
+							<th>หมายเหตุ</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="item in Messenger">
+							<td>{{item.name_surename}}</td>
+							<td>{{item.telnumber}}</td>
+							<td>{{item.trucktype}}</td>
+							<td>{{item.truckno}}</td>
+
+							<td>
+								<button type="button" class="btn btn-primary btn-sm" ng-click="To_Messenger_id()" ng-if="action === 'open'">เปิด</button>
+								<button type="button" class="btn btn-primary btn-sm" ng-click="To_Messenger_id()" ng-if="action === 'close'">ปิด</button>
+							</td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+
+			</div>
+
+
+		</div>
+
+		<div ng-show="foo">
+			dsdsadfwfwef
+		</div>
+	</div>
+
+	
+
+</div>

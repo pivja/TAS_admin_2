@@ -4,32 +4,33 @@
 }
 
 <h2>จัดแผนขนส่ง</h2><hr />
+<div ng-app="myApp" ng-controller="demoController">
 <form>
-<div class="row">
-	<div class="container">
-		<div class="col-md-4" style="margin-top:10px;margin-bottom:10px;">
-			<label for="sel1">Shipment No. : </label>
-			<div class="input-group">
-				<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
-				<input type="text" class="form-control" value="123456789" aria-describedby="basic-addon1">
+	<div class="row">
+		<div class="container">
+			<div class="col-md-4" style="margin-top:10px;margin-bottom:10px;">
+				<label for="sel1">Shipment No. : </label>
+				<div class="input-group">
+					<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
+					<input type="text" class="form-control" ng-model="data.shipmentno" aria-describedby="basic-addon1" >
+				</div>
 			</div>
-		</div>
-		<div class="col-md-4" style="margin-top:10px;margin-bottom:10px;">
-			<label for="sel1">ชื่อคนขับรถ (Driver) : </label>
-			<div class="input-group">
-				<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span></span>
-				<input type="text" class="form-control" value="คนึง โรจน์เพียรธรรม" aria-describedby="basic-addon1">
+			<div class="col-md-4" style="margin-top:10px;margin-bottom:10px;">
+				<label for="sel1">ชื่อคนขับรถ (Driver) : </label>
+				<div class="input-group">
+					<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span></span>
+					<input type="text" class="form-control" ng-model="data.driver" aria-describedby="basic-addon1">
+				</div>
 			</div>
-		</div>
-		<div class="col-md-4" style="margin-top:10px;margin-bottom:10px;">
-			<label for="sel1">หมายเลขทะเบียนรถ (Truck No.): </label>
-			<div class="input-group">
-				<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span></span>
-				<input type="text" class="form-control" value="บพ 9999" aria-describedby="basic-addon1">
+			<div class="col-md-4" style="margin-top:10px;margin-bottom:10px;">
+				<label for="sel1">หมายเลขทะเบียนรถ (Truck No.): </label>
+				<div class="input-group">
+					<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span></span>
+					<input type="text" class="form-control" ng-model="data.truckno" aria-describedby="basic-addon1">
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
 <hr />
 <div class="row">
 	<div class="container">
@@ -37,60 +38,71 @@
 			<label for="sel1">Delivery No. : </label>
 			<div class="input-group">
 				<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></span>
-				<select class="form-control" id="sel1">
+				<select class="form-control" id="sel1" ng-model="data.deliveryno">
 					<option>Delivery No...</option>
-					<option>T0132413E</option>
-					<option>B1032564A</option>
+					<option value="1">T0132413E</option>
+					<option value="2">B1032564A</option>
 				</select>
 			</div>
 		</div>
 		<div class="col-md-2 col-md-push-1" style="margin-top:10px;margin-bottom:10px;">
-			<fieldset disabled>
-				<label for="sel1">Order No. : </label>
-				<div class="input-group">
-					<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span></span>
-					<input type="text" class="form-control" value="1" aria-describedby="basic-addon1">
-				</div>
-			</fieldset>
-		</div>
-		<div class="col-md-6 col-md-push-2" style="margin-top:10px;margin-bottom:10px;">
-			<label for="sel1">วันนัดการจัดส่ง (Due Date) : </label>
-			<div class="input-group">
-				<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
-				<input type="date" value="2018-02-22" class="form-control" aria-describedby="basic-addon1">
 
-			</div>
-		</div>
-		<div class="col-md-6 col-md-push-1" style="margin-top:10px;margin-bottom:10px;">
-			<label for="sel1">คลังสินค้าต้นทาง (Loading Station) : </label>
+			<label for="sel1">Order No. : </label>
 			<div class="input-group">
-				<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span></span>
-				<select class="form-control" id="sel1">
-					<option>Loading Station...</option>
-					<option>แหลมฉบัง</option>
-					<option>สนามบินอู่ตะเภา</option>
+				<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span></span>
+				<select class="form-control" id="sel1" ng-model="data.orderno">
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+					<option value="7">7</option>
+					<option value="8">8</option>
+					<option value="9">9</option>
+					<option value="10">10</option>
 				</select>
 			</div>
+
 		</div>
-		<div class="col-md-6 col-md-push-1" style="margin-top:10px;margin-bottom:10px;">
-			<label for="sel1">จุดหมายปลายทาง (Destination Station) : </label>
-			<div class="input-group">
-				<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span></span>
-				<select class="form-control" id="sel1">
-					<option>Destination...</option>
-					<option>BigC</option>
-					<option>Hitachi ระยอง</option>
-					<option>อมตะนคร</option>
-				</select>
-			</div>
-		</div>
+<div class="col-md-6 col-md-push-2" style="margin-top:10px;margin-bottom:10px;">
+<label for="sel1">วันนัดการจัดส่ง (Due Date) : </label>
+<div class="input-group">
+	<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+	<input type="date" value="2018-02-22" class="form-control" aria-describedby="basic-addon1" ng-model="data.duedate">
+</div>
+</div>
+<div class="col-md-6 col-md-push-1" style="margin-top:10px;margin-bottom:10px;">
+	<label for="sel1">คลังสินค้าต้นทาง (Loading Station) : </label>
+	<div class="input-group">
+		<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span></span>
+		<select class="form-control" id="sel1" ng-model="data.loading">
+			<option>Loading Station...</option>
+			<option value="1">แหลมฉบัง</option>
+			<option value="2">สนามบินอู่ตะเภา</option>
+		</select>
 	</div>
+</div>
+<div class="col-md-6 col-md-push-1" style="margin-top:10px;margin-bottom:10px;">
+	<label for="sel1">จุดหมายปลายทาง (Destination Station) : </label>
+	<div class="input-group">
+		<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span></span>
+		<select class="form-control" id="sel1" ng-model="data.destination">
+			<option>Destination...</option>
+			<option value="1">BigC</option>
+			<option value="2">Hitachi ระยอง</option>
+			<option value="3">อมตะนคร</option>
+		</select>
+	</div>
+</div>
+</div>
 </div>
 <div class="row">
 	<div class="container">
 		<div class="col-sm-4"></div>
 		<div class="col-sm-4" align="center">
-			<button type="submit" class="btn btn-info" style="margin:5px;" font color="white" ng-click="setAdddata3()">เพิ่มข้อมูล</button>
+			<button class="btn btn-info" style="margin:5px;" font color="white" ng-click="addData()" ng-if="action === 'add'">เพิ่มข้อมูล</button>
+			<button class="btn btn-info" style="margin:5px;" font color="white" ng-click="savevalue()" ng-if="action === 'edit'">แก้ไขข้อมูล</button>
 			<button type="reset" class="btn btn-warning" style="margin:5px;" font color="white">เคลียร์ข้อมูล</button>
 		</div>
 		<div class="col-sm-4">
@@ -102,7 +114,7 @@
 <div class="row ws-content">
 	<div class="container">
 		<div class="table-responsive-sm">
-			<table class="table" ng-app="" ng-controller="">
+			<table class="table">
 				<thead>
 					<tr>
 						<th>Shipment No.</th>
@@ -116,19 +128,19 @@
 						<th>command</th>
 					</tr>
 				</thead>
-				<tbody ฝng-repeat="item in Messenger" style="padding-top:5px;">
+				<tbody ng-repeat="data in datas" style="padding-top:5px;">
 					<tr>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
+						<td>{{data.shipmentno}}</td>
+						<td>{{data.driver}}</td>
+						<td>{{data.truckno}}</td>
+						<td>{{data.deliveryno}}</td>
+						<td>{{data.orderno}}</td>
+						<td>{{data.duedate}}</td>
+						<td>{{data.loading}}</td>
+						<td>{{data.destination}}</td>
 						<td>
-							<button type="button" class="btn btn-warning" text color="white">แก้ไข</button>
-							<button type="button" class="close" aria-label="Close" onclick="delbutton()" style="margin:5px;">
+							<button type="button" class="btn btn-warning" text color="white" ng-click="editvalue(data)">แก้ไข</button>
+							<button type="button" class="close" aria-label="Close" style="margin:5px;" ng-click="deletevalue(data)">
 								<span aria-hidden="true">&times;</span>
 							</button>
 						</td>
@@ -136,6 +148,7 @@
 				</tbody>
 			</table>
 		</div>
+		{{datas}}
 	</div>
 </div>
 <div class="row">
@@ -147,7 +160,7 @@
 		<div class="col-lg-4"></div>
 	</div>
 </div>
-
+</div>
 <script>
 	function delbutton() {
 		var txt;
@@ -159,6 +172,8 @@
 		}
 		document.getElementById("demo").innerHTML = txt;
 	}
+
+	
 </script>
 
 @section Scripts {
