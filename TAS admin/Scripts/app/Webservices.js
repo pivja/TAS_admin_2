@@ -126,7 +126,6 @@ app.controller('demoController', function ($scope) {
 		} else {
 			txt = "You pressed Cancel!";
 		}
-		// console.log('rrrrrr');
 		
 	}
 
