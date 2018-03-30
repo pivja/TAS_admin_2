@@ -38,10 +38,66 @@ app.controller('GETMessenger_join', function ($scope, $http) {
 		$scope.Messenger = response.statusText;
 	});
 	$scope.action = 'open';
-	$scope.To_Messenger_id = function () {
+	$scope.noid = "";
+	$scope.openmessenger = function (noid) {
 		$scope.foo = true;
-		console.log($scope.foo);
+		$http.get("http://119.59.122.157/tms/Messenger/" + noid).then(function (response) {
+			$scope.myWelcome = response.data;
+		});
+		//console.log($scope.foo);
 		$scope.action = 'close';
+	}
+	$scope.closemessenger = function () {
+		$scope.foo = false;
+		//console.log($scope.foo);
+		$scope.action = 'open';
+	}
+})
+
+app.controller('GETHistory', function ($scope, $http) {
+	//get history
+	$scope.action = 'open';
+	$scope.noid = "";
+	$scope.openhistory = function () {
+		$scope.his = true;
+		// get history id
+		//console.log($scope.his);
+		$scope.action = 'close';
+	}
+	$scope.closehistory = function () {
+		$scope.his = false;
+		//console.log($scope.his);
+		$scope.action = 'open';
+	}
+})
+
+app.controller('TruckInfo', function ($scope, $http) {
+	$scope.action = 'open';
+	$scope.openData = function () {
+		$scope.truckinsert = true;
+		//
+		//console.log($scope.truckinsert);
+		$scope.action = 'close';
+	}
+	$scope.closeData = function () {
+		$scope.truckinsert = false;
+		//console.log($scope.truckinsert);
+		$scope.action = 'open';
+	}
+	$scope.EditRowOftruckmas = function () {
+		$scope.truckinsert = true;
+		//
+		//console.log($scope.truckinsert);
+		$scope.action = 'close';
+	}
+	$scope.DelRowOftruckmas = function () {
+		var txt;
+		var r = confirm("คุณแน่ใจว่าจะลบรถคันนี้ !!");
+		if (r == true) {
+			txt = "You pressed OK!";
+		} else {
+			txt = "You pressed Cancel!";
+		}
 	}
 })
 
@@ -53,21 +109,6 @@ app.controller('TEST', function ($scope, $http) {
 			$scope.myWelcome = response.data;
 		});
 	};
-})
-app.controller('aaaa', function ($scope) {
-	$scope.isEditData1 = false;
-	$scope.setAdddata1 = function () {
-		if ($scope.isEditData1 === 'false') {
-			$scope.isEditData1 = true;
-		}
-		if ($scope.isEditData1 === 'true') {
-			$scope.isEditData1 = false;
-		}
-		else {
-			$scope.isEditData1 = false;
-		}
-	}
-
 })
 
 app.controller('demoController', function ($scope) {

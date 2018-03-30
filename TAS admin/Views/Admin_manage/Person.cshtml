@@ -21,6 +21,30 @@
 <div ng-app="myApp">
 
 	<div class="row ws-content" ng-controller="GETMessenger_join">
+		<div ng-show="foo">
+			<div class="row">
+				<div class="container">
+						<div class="col-md-3 col-md-push-1" style="margin-top:10px;margin-bottom:10px;">
+							<img src="https://cms.kapook.com/uploads/tag/1/thumb_991_5886cd3df28d4.jpg" class="img-responsive" width="300" height="300"><br />
+						</div>
+						<div class="col-md-9 col-md-push-1" style="margin-top:10px;margin-bottom:10px;">
+							<div class="col-md-6 col-md-push-1" style="margin-top:10px;margin-bottom:10px;">
+								<label for="sel1">ชื่อ : คนึง</label><br /><br />
+								<label for="sel1">นามสกุล : โรจน์เพียรธรรม</label><br /><br />
+								<label for="sel1">เบอร์โทรศัพท์ : 0999999999</label><br /><br />
+								<label for="sel1">หมายเลขพนักงาน : ST000011</label><br /><br />
+								<label for="sel1">ใบขับขี่เลขที่ : 59001111</label><br />
+							</div>
+							<div class="col-md-6 col-md-push-1 col-lg-5" style="margin-top:10px;margin-bottom:10px;padding:1px;">
+								<label for="sel1">ชื่อในระบบ : knuing001</label><br /><br />
+								<label for="sel1">ประเภทเจ้าของ Username : Truck Driver</label><br />
+								<label for="sel1">ที่อยู่ : 219 ถ.สุขุทวิท ต.แสนสุข เมือง อำเภอเมืองชลบุรี ชลบุรี 20130</label><br />
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+		<br/>
 		<div class="container">
 			<div class="table-responsive-sm">
 				<table class="table">
@@ -41,24 +65,17 @@
 							<td>{{item.truckno}}</td>
 
 							<td>
-								<button type="button" class="btn btn-primary btn-sm" ng-click="To_Messenger_id()" ng-if="action === 'open'">เปิด</button>
-								<button type="button" class="btn btn-primary btn-sm" ng-click="To_Messenger_id()" ng-if="action === 'close'">ปิด</button>
+								<button type="button" class="btn btn-primary btn-sm" ng-click="openmessenger(item.noid)" ng-if="action === 'open'">ข้อมูลเฉพาะบุคคล</button>
+								<button type="button" class="btn btn-danger btn-sm" ng-click="closemessenger()" ng-if="action === 'close'">ปิด</button>
 							</td>
 							<td></td>
 						</tr>
 					</tbody>
 				</table>
-
+			</div>
+		</div>
 			</div>
 
 
+
 		</div>
-
-		<div ng-show="foo">
-			dsdsadfwfwef
-		</div>
-	</div>
-
-	
-
-</div>
