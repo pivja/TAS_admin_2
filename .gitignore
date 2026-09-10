@@ -1,0 +1,18 @@
+# ===== Build output =====
+[Bb]in/
+[Oo]bj/
+
+# ===== Visual Studio cache/options (เครื่องใครเครื่องมัน ไม่ต้อง sync) =====
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# ===== NuGet packages (Visual Studio ดาวน์โหลดใหม่ให้เองตอน build) =====
+packages/
+*.nupkg
+
+# ===== Windows / editor junk =====
+Thumbs.db
+.DS_Store
