@@ -11,7 +11,10 @@
     <div class="alert alert-success">@TempData["Message"]</div>
 }
 
-<p>@Html.ActionLink("+ เพิ่มรถ/คนขับใหม่", "Edit_Truck", null, new { @class = "btn btn-primary" })</p>
+<p>
+    @Html.ActionLink("+ เพิ่มรถ/คนขับใหม่", "Edit_Truck", null, new { @class = "btn btn-primary" })
+    @Html.ActionLink("แผนที่ติดตามรถทั้งหมด", "Map", null, new { @class = "btn btn-info" })
+</p>
 
 <table class="table table-striped">
     <thead>
@@ -21,6 +24,7 @@
             <th>น้ำหนัก (กก.)</th>
             <th>คนขับ</th>
             <th>เบอร์โทร</th>
+            <th>ตำแหน่งล่าสุด</th>
             <th></th>
         </tr>
     </thead>
@@ -33,7 +37,20 @@
             <td>@truck.WeightKg</td>
             <td>@(truck.Driver != null ? truck.Driver.FullName : "-")</td>
             <td>@(truck.Driver != null ? truck.Driver.Phone : "-")</td>
-            <td>@Html.ActionLink("แก้ไข", "Edit_Truck", new { id = truck.TruckId }, new { @class = "btn btn-sm btn-default" })</td>
+            <td>
+                @if (truck.LocationUpdatedAt.HasValue)
+                {
+                    <text>@truck.LocationUpdatedAt.Value.ToString("dd/MM/yyyy HH:mm")</text>
+                }
+                else
+                {
+                    <text>ยังไม่มีข้อมูล</text>
+                }
+            </td>
+            <td>
+                @Html.ActionLink("แก้ไข", "Edit_Truck", new { id = truck.TruckId }, new { @class = "btn btn-sm btn-default" })
+                <a href="@Url.Action("Track", "Admin_manage", new { truckId = truck.TruckId }, Request.Url.Scheme)" target="_blank" class="btn btn-sm btn-default">ลิงก์ให้คนขับเปิด GPS</a>
+            </td>
         </tr>
     }
     </tbody>

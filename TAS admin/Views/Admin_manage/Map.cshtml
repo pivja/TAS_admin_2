@@ -1,0 +1,37 @@
+﻿@{
+    ViewBag.Title = "Map";
+}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<h2>แผนที่ติดตามรถบรรทุกทั้งหมด</h2>
+<p>แผนที่จะรีเฟรชตำแหน่งรถอัตโนมัติทุก 15 วินาที (แสดงเฉพาะรถที่มีการส่งพิกัดเข้ามาแล้ว)</p>
+<div id="map" style="width:100%; height:600px;"></div>
+
+<script>
+    var map = L.map('map').setView([13.7563, 100.5018], 6);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    var markers = {};
+
+    function refreshLocations() {
+        fetch('/Admin_manage/TruckLocations')
+            .then(function (res) { return res.json(); })
+            .then(function (data) {
+                data.forEach(function (t) {
+                    var popupText = t.licensePlate + (t.driverName ? ' - ' + t.driverName : '') +
+                        '<br/>อัปเดตล่าสุด: ' + (t.updatedAt ? t.updatedAt : '-');
+                    if (markers[t.truckId]) {
+                        markers[t.truckId].setLatLng([t.lat, t.lng]).setPopupContent(popupText);
+                    } else {
+                        markers[t.truckId] = L.marker([t.lat, t.lng]).addTo(map).bindPopup(popupText);
+                    }
+                });
+            });
+    }
+
+    refreshLocations();
+    setInterval(refreshLocations, 15000);
+</script>

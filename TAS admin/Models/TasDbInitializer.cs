@@ -3,7 +3,7 @@
 namespace TAS_admin.Models
 {
     // ตอนรันครั้งแรก ถ้ายังไม่มีฐานข้อมูล ระบบจะสร้างให้อัตโนมัติ พร้อมใส่ข้อมูลตัวอย่าง 3 รายการ
-    public class TasDbInitializer : CreateDatabaseIfNotExists<TasDbContext>
+    public class TasDbInitializer : DropCreateDatabaseIfModelChanges<TasDbContext>
     {
         protected override void Seed(TasDbContext context)
         {

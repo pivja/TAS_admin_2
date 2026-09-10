@@ -248,5 +248,63 @@ namespace TAS_admin.Controllers
 
             return View(shipment);
         }
+
+        // ===================== ติดตามตำแหน่ง GPS =====================
+
+        // หน้าที่คนขับเปิดค้างไว้บนมือถือ ระบบจะขอตำแหน่งจากเบราว์เซอร์แล้วส่งเข้าระบบให้เองอัตโนมัติ
+        [HttpGet]
+        public ActionResult Track(int truckId)
+        {
+            var truck = db.Trucks.Find(truckId);
+            if (truck == null)
+            {
+                return HttpNotFound();
+            }
+            return View(truck);
+        }
+
+        // รับพิกัดจากหน้า Track แล้วบันทึกตำแหน่งล่าสุดของรถคันนั้น
+        [HttpPost]
+        public JsonResult UpdateLocation(int truckId, double lat, double lng)
+        {
+            var truck = db.Trucks.Find(truckId);
+            if (truck == null)
+            {
+                return Json(new { ok = false, message = "ไม่พบรถคันนี้" });
+            }
+
+            truck.Latitude = lat;
+            truck.Longitude = lng;
+            truck.LocationUpdatedAt = DateTime.Now;
+            db.SaveChanges();
+
+            return Json(new { ok = true });
+        }
+
+        // หน้าแผนที่รวมตำแหน่งรถทุกคัน (สำหรับแอดมิน)
+        public ActionResult Map()
+        {
+            return View();
+        }
+
+        // ให้หน้าแผนที่ดึงตำแหน่งรถล่าสุดเป็น JSON ทุกๆ ไม่กี่วินาที
+        [HttpGet]
+        public JsonResult TruckLocations()
+        {
+            var data = db.Trucks
+                .Where(t => t.Latitude != null && t.Longitude != null)
+                .Select(t => new
+                {
+                    truckId = t.TruckId,
+                    licensePlate = t.LicensePlate,
+                    driverName = t.Driver != null ? t.Driver.FullName : null,
+                    lat = t.Latitude,
+                    lng = t.Longitude,
+                    updatedAt = t.LocationUpdatedAt
+                })
+                .ToList();
+
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
     }
 }

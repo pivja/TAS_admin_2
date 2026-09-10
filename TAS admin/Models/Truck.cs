@@ -19,5 +19,14 @@ namespace TAS_admin.Models
         [Display(Name = "คนขับ")]
         public int? DriverId { get; set; }
         public virtual Driver Driver { get; set; }
+
+        [Display(Name = "ละติจูด")]
+        public double? Latitude { get; set; }
+
+        [Display(Name = "ลองจิจูด")]
+        public double? Longitude { get; set; }
+
+        [Display(Name = "อัปเดตตำแหน่งล่าสุด")]
+        public System.DateTime? LocationUpdatedAt { get; set; }
     }
 }
