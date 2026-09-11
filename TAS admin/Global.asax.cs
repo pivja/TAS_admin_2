@@ -14,6 +14,10 @@ namespace TAS_admin
     {
         protected void Application_Start()
         {
+            // .NET Framework รุ่นเก่าอาจไม่ใช้ TLS 1.2 เป็นค่าเริ่มต้น ทำให้เรียก API ภายนอกที่บังคับ TLS 1.2+
+            // (เช่น Facebook Graph API) ไม่ได้ - บังคับใช้ TLS 1.2 ตรงนี้เผื่อไว้ทั้งแอป
+            System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
+
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

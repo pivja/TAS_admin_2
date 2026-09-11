@@ -53,7 +53,14 @@
     </div>
     <div class="col-md-4">
         <section id="socialLoginForm">
-            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+            <h4>Use another service to log in.</h4>
+            <hr />
+            <p>
+                @using (Html.BeginForm("LoginWithFacebook", "Account", new { ReturnUrl = ViewBag.ReturnUrl }))
+                {
+                    <button type="submit" class="btn" style="background-color:#1877F2;color:white;">เข้าสู่ระบบด้วย Facebook</button>
+                }
+            </p>
             <p>
                 @using (Html.BeginForm("LoginWithLine", "Account", new { ReturnUrl = ViewBag.ReturnUrl }))
                 {

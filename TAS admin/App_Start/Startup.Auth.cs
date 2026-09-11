@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
@@ -16,6 +17,23 @@ namespace TAS_admin
         // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
         public void ConfigureAuth(IAppBuilder app)
         {
+            // ===== ตัวช่วยดีบั๊กชั่วคราว: ถ้า middleware ตัวไหนใน pipeline นี้ throw exception
+            // จะโชว์ stack trace เต็มๆ ออกมาที่หน้าเว็บแทนที่จะเป็น 500 เปล่าๆ =====
+            // (ลบตัวนี้ออกได้เมื่อ deploy จริง หรือเมื่อหาสาเหตุ error เจอแล้ว)
+            app.Use(async (context, next) =>
+            {
+                try
+                {
+                    await next();
+                }
+                catch (Exception ex)
+                {
+                    context.Response.StatusCode = 500;
+                    context.Response.ContentType = "text/plain; charset=utf-8";
+                    await context.Response.WriteAsync("OWIN PIPELINE ERROR:\r\n\r\n" + ex.ToString());
+                }
+            });
+
             // Configure the db context, user manager and signin manager to use a single instance per request
             app.CreatePerOwinContext(ApplicationDbContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
@@ -47,17 +65,11 @@ namespace TAS_admin
             // This is similar to the RememberMe option when you log in.
             app.UseTwoFactorRememberBrowserCookie(DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie);
 
-            // เข้าสู่ระบบด้วย Facebook / Google - เปิดใช้งานอัตโนมัติเมื่อใส่ค่า AppId/Secret ใน Web.config แล้ว
-            var facebookAppId = ConfigurationManager.AppSettings["FacebookAppId"];
-            var facebookAppSecret = ConfigurationManager.AppSettings["FacebookAppSecret"];
-            if (!string.IsNullOrWhiteSpace(facebookAppId) && !string.IsNullOrWhiteSpace(facebookAppSecret))
-            {
-                app.UseFacebookAuthentication(new FacebookAuthenticationOptions
-                {
-                    AppId = facebookAppId,
-                    AppSecret = facebookAppSecret
-                });
-            }
+            // หมายเหตุ: Facebook Login เดิมเคยใช้ app.UseFacebookAuthentication(...) ของ Katana/OWIN
+            // แต่ไลบรารีตัวนี้เก่ามาก (ปี 2015) เรียก Facebook Graph API เวอร์ชันเก่าที่ Facebook เลิกรองรับไปแล้ว
+            // ทำให้ login แล้วเงียบๆ เด้งกลับมาหน้า Login โดยไม่ error ให้เห็นเลย
+            // จึงเปลี่ยนไปทำ Facebook Login แบบเรียก API ตรงเองแทน (แบบเดียวกับ LINE Login)
+            // ดู AccountController.LoginWithFacebook / FacebookCallback
 
             var googleClientId = ConfigurationManager.AppSettings["GoogleClientId"];
             var googleClientSecret = ConfigurationManager.AppSettings["GoogleClientSecret"];

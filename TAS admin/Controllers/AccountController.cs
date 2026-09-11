@@ -403,6 +403,7 @@ namespace TAS_admin.Controllers
         [AllowAnonymous]
         public ActionResult ExternalLoginFailure()
         {
+            ViewBag.Message = TempData["Message"] as string;
             return View();
         }
 
@@ -516,6 +517,129 @@ namespace TAS_admin.Controllers
             }
 
             await SignInManager.SignInAsync(newUser, isPersistent: false, rememberBrowser: false);
+            return RedirectToLocal(returnUrl);
+        }
+
+        // ===== Facebook Login แบบเรียก API ตรงเอง (เหมือน LINE) =====
+        // เดิมใช้ app.UseFacebookAuthentication(...) ของ OWIN แต่ไลบรารีเก่าเกินไป เรียก Facebook API
+        // เวอร์ชันที่ถูกเลิกรองรับแล้ว ทำให้ login แล้วเงียบๆ เด้งกลับมาหน้า Login โดยไม่ error
+        [AllowAnonymous]
+        public ActionResult LoginWithFacebook(string returnUrl)
+        {
+            var appId = ConfigurationManager.AppSettings["FacebookAppId"];
+            var appSecret = ConfigurationManager.AppSettings["FacebookAppSecret"];
+            if (string.IsNullOrWhiteSpace(appId) || string.IsNullOrWhiteSpace(appSecret))
+            {
+                TempData["Message"] = "ยังไม่ได้ตั้งค่า Facebook Login (FacebookAppId/FacebookAppSecret ใน Web.config)";
+                return RedirectToAction("Login", new { ReturnUrl = returnUrl });
+            }
+
+            var state = Guid.NewGuid().ToString("N");
+            Session["FacebookLoginState"] = state;
+            Session["FacebookLoginReturnUrl"] = returnUrl;
+
+            var callbackUrl = Url.Action("FacebookCallback", "Account", null, Request.Url.Scheme);
+            var authorizeUrl = "https://www.facebook.com/v21.0/dialog/oauth"
+                + "?response_type=code"
+                + "&client_id=" + Uri.EscapeDataString(appId)
+                + "&redirect_uri=" + Uri.EscapeDataString(callbackUrl)
+                + "&state=" + state
+                + "&scope=" + Uri.EscapeDataString("email");
+
+            return Redirect(authorizeUrl);
+        }
+
+        [AllowAnonymous]
+        public async Task<ActionResult> FacebookCallback(string code, string state)
+        {
+            var expectedState = Session["FacebookLoginState"] as string;
+            var returnUrl = Session["FacebookLoginReturnUrl"] as string;
+
+            if (string.IsNullOrEmpty(code) || string.IsNullOrEmpty(state) || state != expectedState)
+            {
+                TempData["Message"] = "code หรือ state ไม่ถูกต้อง/หมดอายุ (session อาจหลุดระหว่างไป Facebook)";
+                return RedirectToAction("ExternalLoginFailure");
+            }
+
+            var appId = ConfigurationManager.AppSettings["FacebookAppId"];
+            var appSecret = ConfigurationManager.AppSettings["FacebookAppSecret"];
+            var callbackUrl = Url.Action("FacebookCallback", "Account", null, Request.Url.Scheme);
+
+            string facebookUserId;
+            string facebookEmail = null;
+
+            using (var http = new HttpClient())
+            {
+                var tokenUrl = "https://graph.facebook.com/v21.0/oauth/access_token"
+                    + "?client_id=" + Uri.EscapeDataString(appId)
+                    + "&redirect_uri=" + Uri.EscapeDataString(callbackUrl)
+                    + "&client_secret=" + Uri.EscapeDataString(appSecret)
+                    + "&code=" + Uri.EscapeDataString(code);
+
+                var tokenResponse = await http.GetAsync(tokenUrl);
+                var tokenBody = await tokenResponse.Content.ReadAsStringAsync();
+                if (!tokenResponse.IsSuccessStatusCode)
+                {
+                    TempData["Message"] = "แลก access token กับ Facebook ไม่สำเร็จ: " + tokenBody;
+                    return RedirectToAction("ExternalLoginFailure");
+                }
+
+                var tokenJson = JObject.Parse(tokenBody);
+                var accessToken = (string)tokenJson["access_token"];
+                if (string.IsNullOrEmpty(accessToken))
+                {
+                    TempData["Message"] = "Facebook ไม่ส่ง access_token กลับมา: " + tokenBody;
+                    return RedirectToAction("ExternalLoginFailure");
+                }
+
+                var profileUrl = "https://graph.facebook.com/me?fields=id,name,email&access_token=" + Uri.EscapeDataString(accessToken);
+                var profileResponse = await http.GetAsync(profileUrl);
+                var profileBody = await profileResponse.Content.ReadAsStringAsync();
+                if (!profileResponse.IsSuccessStatusCode)
+                {
+                    TempData["Message"] = "ดึงข้อมูลโปรไฟล์จาก Facebook ไม่สำเร็จ: " + profileBody;
+                    return RedirectToAction("ExternalLoginFailure");
+                }
+
+                var profileJson = JObject.Parse(profileBody);
+                facebookUserId = (string)profileJson["id"];
+                facebookEmail = (string)profileJson["email"];
+            }
+
+            if (string.IsNullOrEmpty(facebookUserId))
+            {
+                TempData["Message"] = "ไม่พบ id ผู้ใช้จากโปรไฟล์ Facebook";
+                return RedirectToAction("ExternalLoginFailure");
+            }
+
+            var loginInfoFb = new UserLoginInfo("Facebook", facebookUserId);
+
+            var existingUser = await UserManager.FindAsync(loginInfoFb);
+            if (existingUser != null)
+            {
+                await SignInManager.SignInAsync(existingUser, isPersistent: false, rememberBrowser: false);
+                return RedirectToLocal(returnUrl);
+            }
+
+            // ยังไม่เคยมีบัญชีในระบบ -> สร้างบัญชีใหม่ให้อัตโนมัติแล้วผูกกับ Facebook ของคนนี้
+            // ถ้า Facebook ไม่ได้ให้อีเมลมา (ผู้ใช้ไม่มีอีเมลผูกไว้ หรือไม่อนุญาต) จะสร้างอีเมลหลอกแทน
+            var placeholderEmail = !string.IsNullOrEmpty(facebookEmail) ? facebookEmail : ("fb_" + facebookUserId + "@facebook.local");
+            var newFbUser = new ApplicationUser { UserName = "fb_" + facebookUserId, Email = placeholderEmail };
+            var createFbResult = await UserManager.CreateAsync(newFbUser);
+            if (!createFbResult.Succeeded)
+            {
+                TempData["Message"] = "สร้างบัญชีผู้ใช้ไม่สำเร็จ: " + string.Join(", ", createFbResult.Errors);
+                return RedirectToAction("ExternalLoginFailure");
+            }
+
+            var addFbLoginResult = await UserManager.AddLoginAsync(newFbUser.Id, loginInfoFb);
+            if (!addFbLoginResult.Succeeded)
+            {
+                TempData["Message"] = "ผูกบัญชี Facebook เข้ากับผู้ใช้ไม่สำเร็จ: " + string.Join(", ", addFbLoginResult.Errors);
+                return RedirectToAction("ExternalLoginFailure");
+            }
+
+            await SignInManager.SignInAsync(newFbUser, isPersistent: false, rememberBrowser: false);
             return RedirectToLocal(returnUrl);
         }
 
