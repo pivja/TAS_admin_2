@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using TAS_admin.Models;
 
@@ -565,6 +567,131 @@ namespace TAS_admin.Controllers
                 lng = shipment.Truck.Longitude,
                 updatedAt = shipment.Truck.LocationUpdatedAt
             }, JsonRequestBehavior.AllowGet);
+        }
+
+        // ===================== แอปคนขับ (เว็บแบบ PWA-lite): งานของฉัน + หลักฐานการส่งของ (POD) =====================
+
+        // รายการงาน (Shipment) ที่ยังไม่ส่งของ ของรถคันนี้ - คนขับไม่ต้อง login ใช้ truckId เหมือนหน้า Track
+        [AllowAnonymous]
+        public ActionResult MyJobs(int truckId)
+        {
+            var truck = db.Trucks.Find(truckId);
+            if (truck == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.Truck = truck;
+            var jobs = db.Shipments
+                .Where(s => s.TruckId == truckId && s.PodDeliveredAt == null)
+                .OrderBy(s => s.DeliveryDate)
+                .ToList();
+            return View(jobs);
+        }
+
+        // ให้หน้า "งานของฉัน" เช็คเป็นระยะว่ามีงานใหม่เข้ามาไหม (แจ้งเตือนแบบ foreground ตอนเปิดแอปค้างไว้)
+        [AllowAnonymous]
+        public JsonResult MyJobsCheck(int truckId)
+        {
+            var jobs = db.Shipments
+                .Where(s => s.TruckId == truckId && s.PodDeliveredAt == null)
+                .Select(s => new { s.ShipmentId, s.ShipmentNo })
+                .ToList();
+            return Json(jobs, JsonRequestBehavior.AllowGet);
+        }
+
+        [AllowAnonymous]
+        public ActionResult DeliverJob(int shipmentId)
+        {
+            var shipment = db.Shipments.Find(shipmentId);
+            if (shipment == null)
+            {
+                return HttpNotFound();
+            }
+            return View(shipment);
+        }
+
+        // บันทึกหลักฐานการส่งของ: รูปถ่าย + ลายเซ็นที่วาดบนจอ
+        [AllowAnonymous]
+        [HttpPost]
+        public ActionResult DeliverJob(int shipmentId, HttpPostedFileBase podPhoto, string signatureData)
+        {
+            var shipment = db.Shipments.Find(shipmentId);
+            if (shipment == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (podPhoto != null && podPhoto.ContentLength > 0)
+            {
+                var podFolder = Server.MapPath("~/Content/pod");
+                if (!System.IO.Directory.Exists(podFolder))
+                {
+                    System.IO.Directory.CreateDirectory(podFolder);
+                }
+                var fileName = "pod_" + shipmentId + "_" + DateTime.Now.Ticks + System.IO.Path.GetExtension(podPhoto.FileName);
+                podPhoto.SaveAs(System.IO.Path.Combine(podFolder, fileName));
+                shipment.PodPhotoPath = "/Content/pod/" + fileName;
+            }
+
+            if (!string.IsNullOrEmpty(signatureData))
+            {
+                shipment.PodSignatureData = signatureData;
+            }
+
+            shipment.PodDeliveredAt = DateTime.Now;
+            shipment.Status = "ส่งของสำเร็จ";
+            db.SaveChanges();
+
+            return RedirectToAction("MyJobs", new { truckId = shipment.TruckId });
+        }
+
+        // รับพิกัดที่คนขับเก็บสะสมไว้ตอนเน็ตหลุด ส่งเข้ามาทีเดียวตอนเน็ตกลับมา (backfill พร้อมเวลาที่บันทึกจริง)
+        [AllowAnonymous]
+        [HttpPost]
+        public JsonResult SyncOfflinePings(int truckId, string pingsJson)
+        {
+            var truck = db.Trucks.Find(truckId);
+            if (truck == null)
+            {
+                return Json(new { ok = false, message = "ไม่พบรถคันนี้" });
+            }
+
+            List<Dictionary<string, object>> pings;
+            try
+            {
+                var serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+                pings = serializer.Deserialize<List<Dictionary<string, object>>>(pingsJson);
+            }
+            catch
+            {
+                return Json(new { ok = false, message = "รูปแบบข้อมูลไม่ถูกต้อง" });
+            }
+
+            int saved = 0;
+            foreach (var p in pings)
+            {
+                try
+                {
+                    double lat = Convert.ToDouble(p["lat"]);
+                    double lng = Convert.ToDouble(p["lng"]);
+                    long ts = Convert.ToInt64(p["ts"]);
+                    var recordedAt = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(ts).ToLocalTime();
+                    db.GpsPings.Add(new GpsPing { TruckId = truckId, Latitude = lat, Longitude = lng, RecordedAt = recordedAt });
+                    saved++;
+                }
+                catch
+                {
+                    // ข้ามรายการที่รูปแบบผิดพลาด ไม่ให้ทั้งชุดล้มเหลว
+                }
+            }
+
+            if (saved > 0)
+            {
+                db.SaveChanges();
+            }
+
+            return Json(new { ok = true, saved = saved });
         }
     }
 }

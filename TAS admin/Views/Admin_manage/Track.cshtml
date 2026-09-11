@@ -8,6 +8,8 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#337ab7" />
+    <link rel="manifest" href="/manifest.json" />
     <title>ติดตามตำแหน่งรถ @Model.LicensePlate</title>
     <style>
         body { font-family: Tahoma, Arial, sans-serif; text-align: center; padding: 30px 15px; background: #f5f5f5; }
@@ -15,20 +17,73 @@
         #status { font-size: 18px; margin-top: 20px; padding: 15px; border-radius: 8px; background: #fff; }
         .ok { color: green; }
         .err { color: red; }
+        .warn { color: #a67c00; }
+        a.jobsLink { display: inline-block; margin-top: 20px; padding: 12px 20px; background: #337ab7; color: #fff; border-radius: 8px; text-decoration: none; font-size: 16px; }
     </style>
 </head>
 <body>
     <h2>รถทะเบียน @Model.LicensePlate</h2>
-    <p>เปิดหน้านี้ค้างไว้บนมือถือระหว่างขับรถ<br />ระบบจะส่งตำแหน่งรถเข้าระบบให้เองทุก 15 วินาที</p>
+    <p>เปิดหน้านี้ค้างไว้บนมือถือระหว่างขับรถ<br />ระบบจะส่งตำแหน่งรถเข้าระบบให้เองทุก 15 วินาที (ถ้าเน็ตหลุด จะเก็บพิกัดไว้ในเครื่องก่อน แล้วส่งย้อนหลังให้เองตอนเน็ตกลับมา)</p>
     <div id="status">กำลังขอสิทธิ์เข้าถึงตำแหน่ง...</div>
+    <a class="jobsLink" href="@Url.Action("MyJobs", "Admin_manage", new { truckId = Model.TruckId })">ดูงานของฉัน</a>
 
     <script>
         var truckId = @Model.TruckId;
         var statusDiv = document.getElementById('status');
+        var pendingKey = 'tas_pending_pings_' + truckId;
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').catch(function (e) { console.log('SW register failed', e); });
+        }
+        if ('Notification' in window && Notification.permission === 'default') {
+            Notification.requestPermission();
+        }
 
         function nowText() {
             var d = new Date();
             return d.getHours() + ':' + (d.getMinutes() < 10 ? '0' : '') + d.getMinutes() + ':' + (d.getSeconds() < 10 ? '0' : '') + d.getSeconds();
+        }
+
+        function loadPending() {
+            try {
+                var raw = localStorage.getItem(pendingKey);
+                return raw ? JSON.parse(raw) : [];
+            } catch (e) {
+                return [];
+            }
+        }
+
+        function savePending(arr) {
+            try {
+                localStorage.setItem(pendingKey, JSON.stringify(arr));
+            } catch (e) { /* เก็บไม่ได้ก็แค่ข้าม ไม่ทำให้แอปพัง */ }
+        }
+
+        function queueOffline(lat, lng) {
+            var arr = loadPending();
+            arr.push({ lat: lat, lng: lng, ts: Date.now() });
+            // กันไม่ให้ array บวมเกินไปถ้าออฟไลน์นาน ๆ เก็บล่าสุดไว้ 500 จุดพอ
+            if (arr.length > 500) {
+                arr = arr.slice(arr.length - 500);
+            }
+            savePending(arr);
+            statusDiv.innerHTML = '<span class="warn">ออฟไลน์ - เก็บพิกัดไว้ในเครื่อง (' + arr.length + ' จุดค้างส่ง, ' + nowText() + ')</span>';
+        }
+
+        function syncOfflinePings() {
+            var arr = loadPending();
+            if (arr.length === 0) {
+                return;
+            }
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/Admin_manage/SyncOfflinePings', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    savePending([]);
+                }
+            };
+            xhr.send('truckId=' + truckId + '&pingsJson=' + encodeURIComponent(JSON.stringify(arr)));
         }
 
         function sendLocation(lat, lng) {
@@ -38,12 +93,13 @@
             xhr.onload = function () {
                 if (xhr.status === 200) {
                     statusDiv.innerHTML = '<span class="ok">ส่งตำแหน่งสำเร็จ (' + nowText() + ')</span>';
+                    syncOfflinePings();
                 } else {
-                    statusDiv.innerHTML = '<span class="err">ส่งตำแหน่งไม่สำเร็จ (' + nowText() + ')</span>';
+                    queueOffline(lat, lng);
                 }
             };
             xhr.onerror = function () {
-                statusDiv.innerHTML = '<span class="err">เชื่อมต่อเซิร์ฟเวอร์ไม่ได้ (' + nowText() + ')</span>';
+                queueOffline(lat, lng);
             };
             xhr.send('truckId=' + truckId + '&lat=' + lat + '&lng=' + lng);
         }
@@ -64,8 +120,31 @@
             );
         }
 
+        // แจ้งเตือนงานใหม่ (ใช้ได้ตอนเปิดหน้านี้ค้างไว้เท่านั้น - ไม่ใช่ push notification จริงแบบแอป)
+        var knownJobIds = null;
+        function checkNewJobs() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/Admin_manage/MyJobsCheck?truckId=' + truckId, true);
+            xhr.onload = function () {
+                if (xhr.status !== 200) { return; }
+                var jobs = JSON.parse(xhr.responseText);
+                var ids = jobs.map(function (j) { return j.ShipmentId; });
+                if (knownJobIds !== null) {
+                    var newOnes = ids.filter(function (id) { return knownJobIds.indexOf(id) === -1; });
+                    if (newOnes.length > 0 && 'Notification' in window && Notification.permission === 'granted') {
+                        new Notification('มีงานใหม่เข้ามา', { body: 'มีงานใหม่ ' + newOnes.length + ' งาน กดปุ่ม "ดูงานของฉัน" เพื่อดูรายละเอียด' });
+                    }
+                }
+                knownJobIds = ids;
+            };
+            xhr.send();
+        }
+
         reportOnce();
         setInterval(reportOnce, 15000);
+        window.addEventListener('online', syncOfflinePings);
+        checkNewJobs();
+        setInterval(checkNewJobs, 30000);
     </script>
 </body>
 </html>

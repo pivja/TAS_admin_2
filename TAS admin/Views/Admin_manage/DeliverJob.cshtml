@@ -1,0 +1,123 @@
+﻿@model TAS_admin.Models.Shipment
+@{
+    ViewBag.Title = "ส่งของสำเร็จ";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#337ab7" />
+    <link rel="manifest" href="/manifest.json" />
+    <title>ส่งของสำเร็จ - @Model.ShipmentNo</title>
+    <style>
+        body { font-family: Tahoma, Arial, sans-serif; padding: 15px; background: #f5f5f5; }
+        h2 { color: #333; }
+        .box { background: #fff; border-radius: 8px; padding: 15px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.15); }
+        label { display: block; margin-bottom: 6px; font-weight: bold; }
+        canvas { border: 1px solid #ccc; border-radius: 4px; touch-action: none; width: 100%; max-width: 400px; height: 180px; background: #fafafa; }
+        .btnRow { margin-top: 10px; }
+        .btnRow button, .btnRow a { padding: 8px 14px; border-radius: 6px; border: none; margin-right: 8px; text-decoration: none; }
+        #clearBtn { background: #eee; }
+        #submitBtn { background: #5cb85c; color: #fff; font-size: 16px; padding: 12px 20px; }
+        a.back { display:inline-block; margin-bottom:15px; color:#337ab7; }
+        #alreadyDone { background:#dff0d8; color:#3c763d; padding:12px; border-radius:8px; margin-bottom:15px; }
+    </style>
+</head>
+<body>
+    <a class="back" href="@Url.Action("MyJobs", "Admin_manage", new { truckId = Model.TruckId })">&larr; กลับไปหน้างานของฉัน</a>
+    <h2>ยืนยันส่งของ - Shipment @Model.ShipmentNo</h2>
+
+    @if (Model.PodDeliveredAt.HasValue)
+    {
+        <div id="alreadyDone">งานนี้บันทึกว่าส่งสำเร็จแล้วเมื่อ @Model.PodDeliveredAt.Value.ToString("dd/MM/yyyy HH:mm")</div>
+    }
+
+    @using (Html.BeginForm("DeliverJob", "Admin_manage", FormMethod.Post, new { enctype = "multipart/form-data", id = "podForm" }))
+    {
+        <input type="hidden" name="shipmentId" value="@Model.ShipmentId" />
+        <input type="hidden" name="signatureData" id="signatureData" />
+
+        <div class="box">
+            <label>ถ่ายรูปหลักฐานการส่งของ</label>
+            <input type="file" name="podPhoto" accept="image/*" capture="environment" />
+        </div>
+
+        <div class="box">
+            <label>ให้ผู้รับของเซ็นชื่อในกรอบด้านล่าง</label>
+            <canvas id="sigCanvas" width="400" height="180"></canvas>
+            <div class="btnRow">
+                <button type="button" id="clearBtn">ล้างลายเซ็น</button>
+            </div>
+        </div>
+
+        <div class="btnRow">
+            <button type="submit" id="submitBtn">บันทึกว่าส่งของสำเร็จ</button>
+        </div>
+    }
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').catch(function () { });
+        }
+
+        var canvas = document.getElementById('sigCanvas');
+        var ctx = canvas.getContext('2d');
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = '#000';
+        ctx.lineJoin = 'round';
+        ctx.lineCap = 'round';
+        var drawing = false;
+        var lastX = 0, lastY = 0;
+
+        function getPos(evt) {
+            var rect = canvas.getBoundingClientRect();
+            var scaleX = canvas.width / rect.width;
+            var scaleY = canvas.height / rect.height;
+            var clientX = evt.touches ? evt.touches[0].clientX : evt.clientX;
+            var clientY = evt.touches ? evt.touches[0].clientY : evt.clientY;
+            return { x: (clientX - rect.left) * scaleX, y: (clientY - rect.top) * scaleY };
+        }
+
+        function startDraw(evt) {
+            drawing = true;
+            var p = getPos(evt);
+            lastX = p.x;
+            lastY = p.y;
+            evt.preventDefault();
+        }
+
+        function moveDraw(evt) {
+            if (!drawing) { return; }
+            var p = getPos(evt);
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(p.x, p.y);
+            ctx.stroke();
+            lastX = p.x;
+            lastY = p.y;
+            evt.preventDefault();
+        }
+
+        function endDraw(evt) {
+            drawing = false;
+        }
+
+        canvas.addEventListener('mousedown', startDraw);
+        canvas.addEventListener('mousemove', moveDraw);
+        window.addEventListener('mouseup', endDraw);
+        canvas.addEventListener('touchstart', startDraw, { passive: false });
+        canvas.addEventListener('touchmove', moveDraw, { passive: false });
+        canvas.addEventListener('touchend', endDraw);
+
+        document.getElementById('clearBtn').addEventListener('click', function () {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        });
+
+        document.getElementById('podForm').addEventListener('submit', function () {
+            document.getElementById('signatureData').value = canvas.toDataURL('image/png');
+        });
+    </script>
+</body>
+</html>

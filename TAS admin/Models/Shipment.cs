@@ -37,5 +37,15 @@ namespace TAS_admin.Models
         public virtual Truck Truck { get; set; }
 
         public virtual ICollection<DeliveryOrder> DeliveryOrders { get; set; }
+
+        // ===== หลักฐานการส่งของ (POD) จากแอปคนขับ =====
+        [Display(Name = "รูปหลักฐานการส่งของ")]
+        public string PodPhotoPath { get; set; }
+
+        [Display(Name = "ลายเซ็นผู้รับของ (base64)")]
+        public string PodSignatureData { get; set; }
+
+        [Display(Name = "เวลาที่ส่งของสำเร็จ")]
+        public DateTime? PodDeliveredAt { get; set; }
     }
 }
