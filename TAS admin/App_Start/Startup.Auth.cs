@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Configuration;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.Facebook;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using TAS_admin.Models;
@@ -45,24 +47,31 @@ namespace TAS_admin
             // This is similar to the RememberMe option when you log in.
             app.UseTwoFactorRememberBrowserCookie(DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie);
 
-            // Uncomment the following lines to enable logging in with third party login providers
-            //app.UseMicrosoftAccountAuthentication(
-            //    clientId: "",
-            //    clientSecret: "");
+            // เข้าสู่ระบบด้วย Facebook / Google - เปิดใช้งานอัตโนมัติเมื่อใส่ค่า AppId/Secret ใน Web.config แล้ว
+            var facebookAppId = ConfigurationManager.AppSettings["FacebookAppId"];
+            var facebookAppSecret = ConfigurationManager.AppSettings["FacebookAppSecret"];
+            if (!string.IsNullOrWhiteSpace(facebookAppId) && !string.IsNullOrWhiteSpace(facebookAppSecret))
+            {
+                app.UseFacebookAuthentication(new FacebookAuthenticationOptions
+                {
+                    AppId = facebookAppId,
+                    AppSecret = facebookAppSecret
+                });
+            }
 
-            //app.UseTwitterAuthentication(
-            //   consumerKey: "",
-            //   consumerSecret: "");
+            var googleClientId = ConfigurationManager.AppSettings["GoogleClientId"];
+            var googleClientSecret = ConfigurationManager.AppSettings["GoogleClientSecret"];
+            if (!string.IsNullOrWhiteSpace(googleClientId) && !string.IsNullOrWhiteSpace(googleClientSecret))
+            {
+                app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+                {
+                    ClientId = googleClientId,
+                    ClientSecret = googleClientSecret
+                });
+            }
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
-
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            // หมายเหตุ: LINE Login ไม่มี OWIN middleware สำเร็จรูป จึงทำเป็นปุ่มแยกต่างหาก
+            // ดู AccountController.LoginWithLine / LineCallback
         }
     }
 }

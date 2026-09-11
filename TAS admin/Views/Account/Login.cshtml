@@ -54,6 +54,12 @@
     <div class="col-md-4">
         <section id="socialLoginForm">
             @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+            <p>
+                @using (Html.BeginForm("LoginWithLine", "Account", new { ReturnUrl = ViewBag.ReturnUrl }))
+                {
+                    <button type="submit" class="btn" style="background-color:#06C755;color:white;">เข้าสู่ระบบด้วย LINE</button>
+                }
+            </p>
         </section>
     </div>
 </div>

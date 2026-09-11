@@ -252,6 +252,8 @@ namespace TAS_admin.Controllers
         // ===================== ติดตามตำแหน่ง GPS =====================
 
         // หน้าที่คนขับเปิดค้างไว้บนมือถือ ระบบจะขอตำแหน่งจากเบราว์เซอร์แล้วส่งเข้าระบบให้เองอัตโนมัติ
+        // (คนขับไม่มีบัญชี login ในระบบ จึงต้องเปิดให้เข้าได้โดยไม่ต้อง login)
+        [AllowAnonymous]
         [HttpGet]
         public ActionResult Track(int truckId)
         {
@@ -264,6 +266,7 @@ namespace TAS_admin.Controllers
         }
 
         // รับพิกัดจากหน้า Track แล้วบันทึกตำแหน่งล่าสุดของรถคันนั้น
+        [AllowAnonymous]
         [HttpPost]
         public JsonResult UpdateLocation(int truckId, double lat, double lng)
         {

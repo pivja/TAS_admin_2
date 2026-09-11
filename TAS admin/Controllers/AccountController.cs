@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Configuration;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
+using Newtonsoft.Json.Linq;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -401,6 +404,119 @@ namespace TAS_admin.Controllers
         public ActionResult ExternalLoginFailure()
         {
             return View();
+        }
+
+        // ===================== LINE Login =====================
+        // หมายเหตุ: LINE ไม่มี OWIN middleware สำเร็จรูปเหมือน Facebook/Google
+        // เลยทำ OAuth2 flow เองตรงนี้แทน (เรียก LINE API โดยตรง)
+
+        [AllowAnonymous]
+        public ActionResult LoginWithLine(string returnUrl)
+        {
+            var channelId = ConfigurationManager.AppSettings["LineChannelId"];
+            if (string.IsNullOrWhiteSpace(channelId))
+            {
+                TempData["Message"] = "ยังไม่ได้ตั้งค่า LINE Login (LineChannelId ใน Web.config)";
+                return RedirectToAction("Login", new { ReturnUrl = returnUrl });
+            }
+
+            var state = Guid.NewGuid().ToString("N");
+            Session["LineLoginState"] = state;
+            Session["LineLoginReturnUrl"] = returnUrl;
+
+            var callbackUrl = Url.Action("LineCallback", "Account", null, Request.Url.Scheme);
+            var authorizeUrl = "https://access.line.me/oauth2/v2.1/authorize"
+                + "?response_type=code"
+                + "&client_id=" + Uri.EscapeDataString(channelId)
+                + "&redirect_uri=" + Uri.EscapeDataString(callbackUrl)
+                + "&state=" + state
+                + "&scope=" + Uri.EscapeDataString("profile openid");
+
+            return Redirect(authorizeUrl);
+        }
+
+        [AllowAnonymous]
+        public async Task<ActionResult> LineCallback(string code, string state)
+        {
+            var expectedState = Session["LineLoginState"] as string;
+            var returnUrl = Session["LineLoginReturnUrl"] as string;
+
+            if (string.IsNullOrEmpty(code) || string.IsNullOrEmpty(state) || state != expectedState)
+            {
+                return RedirectToAction("ExternalLoginFailure");
+            }
+
+            var channelId = ConfigurationManager.AppSettings["LineChannelId"];
+            var channelSecret = ConfigurationManager.AppSettings["LineChannelSecret"];
+            var callbackUrl = Url.Action("LineCallback", "Account", null, Request.Url.Scheme);
+
+            string lineUserId;
+
+            using (var http = new HttpClient())
+            {
+                var tokenRequest = new FormUrlEncodedContent(new[]
+                {
+                    new System.Collections.Generic.KeyValuePair<string, string>("grant_type", "authorization_code"),
+                    new System.Collections.Generic.KeyValuePair<string, string>("code", code),
+                    new System.Collections.Generic.KeyValuePair<string, string>("redirect_uri", callbackUrl),
+                    new System.Collections.Generic.KeyValuePair<string, string>("client_id", channelId),
+                    new System.Collections.Generic.KeyValuePair<string, string>("client_secret", channelSecret)
+                });
+
+                var tokenResponse = await http.PostAsync("https://api.line.me/oauth2/v2.1/token", tokenRequest);
+                if (!tokenResponse.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("ExternalLoginFailure");
+                }
+
+                var tokenJson = JObject.Parse(await tokenResponse.Content.ReadAsStringAsync());
+                var accessToken = (string)tokenJson["access_token"];
+
+                var profileRequest = new HttpRequestMessage(HttpMethod.Get, "https://api.line.me/v2/profile");
+                profileRequest.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
+                var profileResponse = await http.SendAsync(profileRequest);
+                if (!profileResponse.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("ExternalLoginFailure");
+                }
+
+                var profileJson = JObject.Parse(await profileResponse.Content.ReadAsStringAsync());
+                lineUserId = (string)profileJson["userId"];
+            }
+
+            if (string.IsNullOrEmpty(lineUserId))
+            {
+                return RedirectToAction("ExternalLoginFailure");
+            }
+
+            var loginInfoLine = new UserLoginInfo("LINE", lineUserId);
+
+            var existingUser = await UserManager.FindAsync(loginInfoLine);
+            if (existingUser != null)
+            {
+                await SignInManager.SignInAsync(existingUser, isPersistent: false, rememberBrowser: false);
+                return RedirectToLocal(returnUrl);
+            }
+
+            // ยังไม่เคยมีบัญชีในระบบ -> สร้างบัญชีใหม่ให้อัตโนมัติแล้วผูกกับ LINE ของคนนี้
+            // หมายเหตุ: ระบบตั้งค่าให้ต้องมีอีเมลไม่ซ้ำกัน (RequireUniqueEmail = true) แต่ LINE ไม่ได้ให้อีเมลจริงมา
+            // จึงสร้างอีเมลหลอกที่ไม่ซ้ำจาก userId ของ LINE ไว้แทน (ใช้ยืนยันตัวตนในระบบเท่านั้น ไม่ใช่อีเมลจริง)
+            var placeholderEmail = "line_" + lineUserId + "@line.local";
+            var newUser = new ApplicationUser { UserName = "line_" + lineUserId, Email = placeholderEmail };
+            var createResult = await UserManager.CreateAsync(newUser);
+            if (!createResult.Succeeded)
+            {
+                return RedirectToAction("ExternalLoginFailure");
+            }
+
+            var addLoginResult = await UserManager.AddLoginAsync(newUser.Id, loginInfoLine);
+            if (!addLoginResult.Succeeded)
+            {
+                return RedirectToAction("ExternalLoginFailure");
+            }
+
+            await SignInManager.SignInAsync(newUser, isPersistent: false, rememberBrowser: false);
+            return RedirectToLocal(returnUrl);
         }
 
         protected override void Dispose(bool disposing)
