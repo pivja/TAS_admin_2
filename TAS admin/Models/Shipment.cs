@@ -9,9 +9,13 @@ namespace TAS_admin.Models
         public Shipment()
         {
             DeliveryOrders = new List<DeliveryOrder>();
+            TrackingToken = Guid.NewGuid();
         }
 
         public int ShipmentId { get; set; }
+
+        // รหัสลับสำหรับสร้างลิงก์ติดตามพัสดุให้ลูกค้า (ไม่ต้อง login)
+        public Guid TrackingToken { get; set; }
 
         [Required(ErrorMessage = "กรุณากรอก Shipment No")]
         [Display(Name = "Shipment No")]

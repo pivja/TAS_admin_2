@@ -1,0 +1,42 @@
+﻿@model IEnumerable<TAS_admin.Models.FuelLog>
+@{
+    var truck = (TAS_admin.Models.Truck)ViewBag.Truck;
+    ViewBag.Title = "FuelLogList";
+}
+<h2>ประวัติการเติมน้ำมัน: รถ @truck.LicensePlate</h2>
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">@TempData["Message"]</div>
+}
+<p>@Html.ActionLink("+ บันทึกการเติมน้ำมัน", "FuelLogCreate", new { truckId = truck.TruckId }, new { @class = "btn btn-primary" })</p>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>วันที่</th>
+            <th>ลิตร</th>
+            <th>ราคารวม (บาท)</th>
+            <th>เลขไมล์ (กม.)</th>
+            <th>ระยะทางจากครั้งก่อน (กม.)</th>
+            <th>อัตราสิ้นเปลือง (กม./ลิตร)</th>
+        </tr>
+    </thead>
+    <tbody>
+    @{
+        double? prevOdo = null;
+        foreach (var f in Model)
+        {
+            double? distSincePrev = prevOdo.HasValue ? f.OdometerKm - prevOdo.Value : (double?)null;
+            double? kmPerLiter = (distSincePrev.HasValue && f.Liters > 0) ? distSincePrev.Value / f.Liters : (double?)null;
+            <tr>
+                <td>@f.FilledAt.ToString("dd/MM/yyyy")</td>
+                <td>@f.Liters.ToString("0.0")</td>
+                <td>@f.Cost.ToString("0.0")</td>
+                <td>@f.OdometerKm.ToString("0.0")</td>
+                <td>@(distSincePrev.HasValue ? distSincePrev.Value.ToString("0.0") : "-")</td>
+                <td>@(kmPerLiter.HasValue ? kmPerLiter.Value.ToString("0.00") : "-")</td>
+            </tr>
+            prevOdo = f.OdometerKm;
+        }
+    }
+    </tbody>
+</table>

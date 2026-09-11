@@ -1,0 +1,59 @@
+﻿@model TAS_admin.Models.Geofence
+@{
+    ViewBag.Title = "GeofenceCreate";
+}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<h2>เพิ่มเขตพื้นที่ใหม่</h2>
+<p>คลิกบนแผนที่เพื่อเลือกจุดศูนย์กลาง</p>
+<div id="pickMap" style="width:100%; height:400px;"></div>
+<br />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name)
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.CenterLat)
+        @Html.TextBoxFor(m => m.CenterLat, new { @class = "form-control", id = "inpLat" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.CenterLng)
+        @Html.TextBoxFor(m => m.CenterLng, new { @class = "form-control", id = "inpLng" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.RadiusMeters)
+        @Html.TextBoxFor(m => m.RadiusMeters, new { @class = "form-control" })
+    </div>
+    <div class="checkbox">
+        <label>@Html.CheckBoxFor(m => m.IsAllowedZone) เป็นเขตอนุญาต (ติ๊ก = แจ้งเตือนเมื่อรถ "ออกนอก" เขตนี้ / ไม่ติ๊ก = แจ้งเตือนเมื่อรถ "เข้าไปใน" เขตนี้ เช่น เขตต้องห้าม)</label>
+    </div>
+    <div class="checkbox">
+        <label>@Html.CheckBoxFor(m => m.IsActive) เปิดใช้งาน</label>
+    </div>
+    <input type="submit" class="btn btn-default" value="บันทึก" />
+    @Html.ActionLink("ยกเลิก", "GeofenceList", null, new { @class = "btn btn-default" })
+}
+
+<script>
+    var pickMap = L.map('pickMap').setView([13.7563, 100.5018], 6);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(pickMap);
+
+    var pickMarker = null;
+    pickMap.on('click', function (e) {
+        document.getElementById('inpLat').value = e.latlng.lat.toFixed(6);
+        document.getElementById('inpLng').value = e.latlng.lng.toFixed(6);
+        if (pickMarker) {
+            pickMarker.setLatLng(e.latlng);
+        } else {
+            pickMarker = L.marker(e.latlng).addTo(pickMap);
+        }
+    });
+</script>

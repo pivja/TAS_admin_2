@@ -1,0 +1,75 @@
+﻿@model TAS_admin.Models.Truck
+@{
+    ViewBag.Title = "Playback";
+}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<h2>เส้นทางย้อนหลัง: รถ @Model.LicensePlate</h2>
+
+@using (Html.BeginForm("Playback", "Admin_manage", FormMethod.Get))
+{
+    <input type="hidden" name="truckId" value="@Model.TruckId" />
+    <label>เลือกวันที่: </label>
+    <input type="date" name="date" value="@(((DateTime)ViewBag.SelectedDate).ToString("yyyy-MM-dd"))" />
+    <input type="submit" class="btn btn-default" value="แสดงเส้นทาง" />
+}
+<br />
+
+<div id="playbackMap" style="width:100%; height:500px;"></div>
+<div style="margin-top:10px;">
+    <button id="btnPlay" class="btn btn-primary">▶ เล่นย้อนหลัง</button>
+    <span id="playbackTime" style="margin-left:10px; font-weight:bold;"></span>
+</div>
+
+@{
+    var pingsJson = new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(ViewBag.Pings);
+}
+
+<script>
+    var pings = @Html.Raw(pingsJson);
+    var map = L.map('playbackMap').setView([13.7563, 100.5018], 6);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    var timeLabel = document.getElementById('playbackTime');
+
+    if (pings.length === 0) {
+        timeLabel.innerText = 'ไม่มีข้อมูลเส้นทางในวันที่เลือก';
+    } else {
+        var latlngs = pings.map(function (p) { return [p.lat, p.lng]; });
+        var polyline = L.polyline(latlngs, { color: 'blue' }).addTo(map);
+        map.fitBounds(polyline.getBounds());
+
+        var marker = L.marker(latlngs[0]).addTo(map);
+        var idx = 0;
+        var playing = false;
+        var timer = null;
+
+        function showStep(i) {
+            marker.setLatLng(latlngs[i]);
+            var t = new Date(pings[i].t);
+            timeLabel.innerText = 'จุดที่ ' + (i + 1) + ' / ' + pings.length + ' เวลา ' + t.toLocaleTimeString('th-TH');
+        }
+        showStep(0);
+
+        document.getElementById('btnPlay').addEventListener('click', function () {
+            if (playing) {
+                clearInterval(timer);
+                playing = false;
+                this.innerText = '▶ เล่นย้อนหลัง';
+                return;
+            }
+            playing = true;
+            this.innerText = '⏸ หยุด';
+            timer = setInterval(function () {
+                idx++;
+                if (idx >= latlngs.length) {
+                    idx = 0;
+                }
+                showStep(idx);
+            }, 400);
+        });
+    }
+</script>

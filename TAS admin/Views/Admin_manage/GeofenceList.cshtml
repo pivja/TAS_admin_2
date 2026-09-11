@@ -1,0 +1,33 @@
+﻿@model IEnumerable<TAS_admin.Models.Geofence>
+@{
+    ViewBag.Title = "GeofenceList";
+}
+<h2>เขตพื้นที่ (Geofence)</h2>
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">@TempData["Message"]</div>
+}
+<p>@Html.ActionLink("+ เพิ่มเขตพื้นที่ใหม่", "GeofenceCreate", null, new { @class = "btn btn-primary" })</p>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ชื่อพื้นที่</th>
+            <th>จุดศูนย์กลาง</th>
+            <th>รัศมี (ม.)</th>
+            <th>ประเภท</th>
+            <th>สถานะ</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var g in Model)
+    {
+        <tr>
+            <td>@g.Name</td>
+            <td>@g.CenterLat.ToString("0.0000"), @g.CenterLng.ToString("0.0000")</td>
+            <td>@g.RadiusMeters</td>
+            <td>@(g.IsAllowedZone ? "เขตอนุญาต (แจ้งเตือนถ้าออกนอก)" : "เขตต้องห้าม (แจ้งเตือนถ้าเข้าไป)")</td>
+            <td>@(g.IsActive ? "ทำงานอยู่" : "ปิดใช้งาน")</td>
+        </tr>
+    }
+    </tbody>
+</table>

@@ -1,0 +1,47 @@
+﻿@model IEnumerable<TAS_admin.Models.Truck>
+@{
+    ViewBag.Title = "Maintenance";
+}
+<h2>ซ่อมบำรุงรถ</h2>
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">@TempData["Message"]</div>
+}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ทะเบียนรถ</th>
+            <th>เลขไมล์สะสม (กม.)</th>
+            <th>เลขไมล์ตอนซ่อมล่าสุด</th>
+            <th>วิ่งมาแล้ว (กม.) นับจากซ่อมล่าสุด</th>
+            <th>รอบซ่อมบำรุง (กม.)</th>
+            <th>สถานะ</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var t in Model)
+    {
+        var lastServiceOdo = t.LastServiceOdometerKm ?? 0;
+        var sinceService = t.OdometerKm - lastServiceOdo;
+        var isDue = t.ServiceIntervalKm > 0 && sinceService >= t.ServiceIntervalKm;
+        <tr class="@(isDue ? "danger" : "")">
+            <td>@t.LicensePlate</td>
+            <td>@t.OdometerKm.ToString("0.0")</td>
+            <td>@(t.LastServiceOdometerKm.HasValue ? t.LastServiceOdometerKm.Value.ToString("0.0") : "-")</td>
+            <td>@sinceService.ToString("0.0")</td>
+            <td>@t.ServiceIntervalKm.ToString("0.0")</td>
+            <td>@(isDue ? "ถึงกำหนดซ่อมบำรุงแล้ว" : "ปกติ")</td>
+            <td>
+                @using (Html.BeginForm("ServiceDone", "Admin_manage", FormMethod.Post, new { style = "display:inline" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="truckId" value="@t.TruckId" />
+                    <input type="submit" class="btn btn-sm btn-default" value="บันทึกว่าซ่อมแล้ว" />
+                }
+                @Html.ActionLink("ประวัติน้ำมัน", "FuelLogList", new { truckId = t.TruckId }, new { @class = "btn btn-sm btn-default" })
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

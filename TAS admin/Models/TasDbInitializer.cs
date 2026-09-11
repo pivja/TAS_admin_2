@@ -15,9 +15,20 @@ namespace TAS_admin.Models
             context.Drivers.Add(d2);
             context.Drivers.Add(d3);
 
-            context.Trucks.Add(new Truck { LicensePlate = "บพ 9999", Province = "ชลบุรี", WeightKg = 200, Driver = d1 });
-            context.Trucks.Add(new Truck { LicensePlate = "อก 8989", Province = "ระยอง", WeightKg = 350, Driver = d2 });
-            context.Trucks.Add(new Truck { LicensePlate = "ทบ 1302", Province = "ชลบุรี", WeightKg = 200, Driver = d3 });
+            context.Trucks.Add(new Truck { LicensePlate = "บพ 9999", Province = "ชลบุรี", WeightKg = 200, Driver = d1, ServiceIntervalKm = 10000 });
+            context.Trucks.Add(new Truck { LicensePlate = "อก 8989", Province = "ระยอง", WeightKg = 350, Driver = d2, ServiceIntervalKm = 10000 });
+            context.Trucks.Add(new Truck { LicensePlate = "ทบ 1302", Province = "ชลบุรี", WeightKg = 200, Driver = d3, ServiceIntervalKm = 10000 });
+
+            // ตัวอย่างเขตพื้นที่: วงกลมรัศมี 50 กม. รอบกรุงเทพฯ ถือเป็น "เขตอนุญาต" - แจ้งเตือนถ้ารถวิ่งออกนอกเขตนี้
+            context.Geofences.Add(new Geofence
+            {
+                Name = "เขตปฏิบัติงานปกติ (รอบกรุงเทพฯ)",
+                CenterLat = 13.7563,
+                CenterLng = 100.5018,
+                RadiusMeters = 50000,
+                IsAllowedZone = true,
+                IsActive = true
+            });
 
             base.Seed(context);
         }

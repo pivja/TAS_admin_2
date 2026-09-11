@@ -50,6 +50,7 @@
             <td>
                 @Html.ActionLink("แก้ไข", "Edit_Truck", new { id = truck.TruckId }, new { @class = "btn btn-sm btn-default" })
                 <a href="@Url.Action("Track", "Admin_manage", new { truckId = truck.TruckId }, Request.Url.Scheme)" target="_blank" class="btn btn-sm btn-default">ลิงก์ให้คนขับเปิด GPS</a>
+                @Html.ActionLink("เส้นทางย้อนหลัง", "Playback", new { truckId = truck.TruckId }, new { @class = "btn btn-sm btn-default" })
             </td>
         </tr>
     }

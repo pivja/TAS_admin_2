@@ -177,6 +177,10 @@
     <Compile Include="Models\TasDbContext.cs" />
     <Compile Include="Models\TasDbInitializer.cs" />
     <Compile Include="Models\TasViewModels.cs" />
+    <Compile Include="Models\GpsPing.cs" />
+    <Compile Include="Models\Geofence.cs" />
+    <Compile Include="Models\GeofenceAlert.cs" />
+    <Compile Include="Models\FuelLog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -1026,6 +1030,13 @@
     <Content Include="Views\Admin_manage\Truck_information1_id.cshtml" />
     <Content Include="Views\Admin_manage\Track.cshtml" />
     <Content Include="Views\Admin_manage\Map.cshtml" />
+    <Content Include="Views\Admin_manage\Playback.cshtml" />
+    <Content Include="Views\Admin_manage\GeofenceList.cshtml" />
+    <Content Include="Views\Admin_manage\GeofenceCreate.cshtml" />
+    <Content Include="Views\Admin_manage\Maintenance.cshtml" />
+    <Content Include="Views\Admin_manage\FuelLogList.cshtml" />
+    <Content Include="Views\Admin_manage\FuelLogCreate.cshtml" />
+    <Content Include="Views\Admin_manage\TrackShipment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

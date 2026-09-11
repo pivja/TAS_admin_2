@@ -6,6 +6,13 @@
 
 <h2>แผนที่ติดตามรถบรรทุกทั้งหมด</h2>
 <p>แผนที่จะรีเฟรชตำแหน่งรถอัตโนมัติทุก 15 วินาที (แสดงเฉพาะรถที่มีการส่งพิกัดเข้ามาแล้ว)</p>
+
+<div id="geofenceAlertBox" class="alert alert-warning" style="display:none;">
+    <button type="button" class="close" onclick="markAlertsRead()"><span>&times;</span></button>
+    <strong>แจ้งเตือนเขตพื้นที่ (Geofence)</strong>
+    <ul id="geofenceAlertList" style="margin-bottom:0;"></ul>
+</div>
+
 <div id="map" style="width:100%; height:600px;"></div>
 
 <script>
@@ -34,4 +41,34 @@
 
     refreshLocations();
     setInterval(refreshLocations, 15000);
+
+    function refreshGeofenceAlerts() {
+        fetch('/Admin_manage/GeofenceAlertsUnread')
+            .then(function (res) { return res.json(); })
+            .then(function (data) {
+                var box = document.getElementById('geofenceAlertBox');
+                var list = document.getElementById('geofenceAlertList');
+                if (data.length === 0) {
+                    box.style.display = 'none';
+                    return;
+                }
+                list.innerHTML = '';
+                data.forEach(function (a) {
+                    var li = document.createElement('li');
+                    li.textContent = a.Message + ' (' + a.CreatedAt + ')';
+                    list.appendChild(li);
+                });
+                box.style.display = 'block';
+            });
+    }
+
+    function markAlertsRead() {
+        fetch('/Admin_manage/MarkGeofenceAlertsRead', { method: 'POST' })
+            .then(function () {
+                document.getElementById('geofenceAlertBox').style.display = 'none';
+            });
+    }
+
+    refreshGeofenceAlerts();
+    setInterval(refreshGeofenceAlerts, 15000);
 </script>

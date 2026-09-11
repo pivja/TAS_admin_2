@@ -28,5 +28,19 @@ namespace TAS_admin.Models
 
         [Display(Name = "อัปเดตตำแหน่งล่าสุด")]
         public System.DateTime? LocationUpdatedAt { get; set; }
+
+        // ===== ข้อมูลระยะทาง / ซ่อมบำรุง =====
+
+        [Display(Name = "เลขไมล์สะสม (กม.)")]
+        public double OdometerKm { get; set; }
+
+        [Display(Name = "เลขไมล์ตอนเข้าซ่อมบำรุงล่าสุด (กม.)")]
+        public double? LastServiceOdometerKm { get; set; }
+
+        [Display(Name = "รอบระยะซ่อมบำรุง (กม.)")]
+        public double ServiceIntervalKm { get; set; }
+
+        [Display(Name = "วันที่เข้าซ่อมบำรุงล่าสุด")]
+        public System.DateTime? LastServiceDate { get; set; }
     }
 }

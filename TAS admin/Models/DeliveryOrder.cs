@@ -23,6 +23,12 @@ namespace TAS_admin.Models
         [Display(Name = "จุดหมาย")]
         public string Destination { get; set; }
 
+        [Display(Name = "ละติจูดปลายทาง")]
+        public double? DestinationLat { get; set; }
+
+        [Display(Name = "ลองจิจูดปลายทาง")]
+        public double? DestinationLng { get; set; }
+
         public int ShipmentId { get; set; }
         public virtual Shipment Shipment { get; set; }
     }
