@@ -20,6 +20,7 @@ namespace TAS_admin.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private TasDbContext _tasDb = new TasDbContext();
 
         public AccountController()
         {
@@ -154,10 +155,86 @@ namespace TAS_admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                // ระบบยังต้องมีอีเมลไม่ซ้ำกันภายใน (RequireUniqueEmail = true) แต่ฟอร์มนี้เก็บแค่ "ชื่อในระบบ"
+                // จึงสร้างอีเมลหลอกจาก username ไว้ใช้ภายในเท่านั้น (เหมือนที่ทำกับ LINE/Facebook login)
+                var placeholderEmail = model.Username + "@tas.local";
+                var user = new ApplicationUser { UserName = model.Username, Email = placeholderEmail, UserType = model.UserType };
+
+                if (!string.IsNullOrWhiteSpace(model.UsernameExpiryDateText))
+                {
+                    DateTime parsedExpiry;
+                    if (DateTime.TryParse(model.UsernameExpiryDateText, out parsedExpiry))
+                    {
+                        user.UsernameExpiryDate = parsedExpiry;
+                    }
+                }
+
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    // ===== บันทึกข้อมูลรถ + คนขับ (ถ้ากรอกมา) ผูกกับบัญชีที่เพิ่งสร้าง =====
+                    Truck truck = null;
+                    if (!string.IsNullOrWhiteSpace(model.TruckLicensePlate))
+                    {
+                        truck = new Truck
+                        {
+                            LicensePlate = model.TruckLicensePlate,
+                            Province = model.TruckProvince,
+                            Characteristics = model.TruckCharacteristics,
+                            ServiceIntervalKm = 10000
+                        };
+
+                        decimal weightTon;
+                        if (!string.IsNullOrWhiteSpace(model.TruckWeightTonText) && decimal.TryParse(model.TruckWeightTonText, out weightTon))
+                        {
+                            truck.WeightKg = weightTon * 1000m;
+                        }
+                    }
+
+                    var fullName = ((model.FirstName ?? "") + " " + (model.LastName ?? "")).Trim();
+                    Driver driver = null;
+                    if (!string.IsNullOrWhiteSpace(fullName) || !string.IsNullOrWhiteSpace(model.Phone)
+                        || !string.IsNullOrWhiteSpace(model.LicenseNo) || !string.IsNullOrWhiteSpace(model.EmployeeNo))
+                    {
+                        driver = new Driver
+                        {
+                            FullName = string.IsNullOrWhiteSpace(fullName) ? model.Username : fullName,
+                            Phone = model.Phone,
+                            LicenseNo = model.LicenseNo,
+                            Address = model.Address,
+                            EmployeeNo = model.EmployeeNo,
+                            ApplicationUserId = user.Id
+                        };
+
+                        if (model.Photo != null && model.Photo.ContentLength > 0)
+                        {
+                            var photoFolder = Server.MapPath("~/Content/driver-photos");
+                            if (!System.IO.Directory.Exists(photoFolder))
+                            {
+                                System.IO.Directory.CreateDirectory(photoFolder);
+                            }
+                            var fileName = "driver_" + user.Id + "_" + DateTime.Now.Ticks + System.IO.Path.GetExtension(model.Photo.FileName);
+                            model.Photo.SaveAs(System.IO.Path.Combine(photoFolder, fileName));
+                            driver.PhotoPath = "/Content/driver-photos/" + fileName;
+                        }
+
+                        if (truck != null)
+                        {
+                            driver.Trucks.Add(truck);
+                        }
+
+                        _tasDb.Drivers.Add(driver);
+                    }
+                    else if (truck != null)
+                    {
+                        _tasDb.Trucks.Add(truck);
+                    }
+
+                    if (driver != null || truck != null)
+                    {
+                        _tasDb.SaveChanges();
+                    }
+
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
@@ -657,6 +734,11 @@ namespace TAS_admin.Controllers
                 {
                     _signInManager.Dispose();
                     _signInManager = null;
+                }
+
+                if (_tasDb != null)
+                {
+                    _tasDb.Dispose();
                 }
             }
 

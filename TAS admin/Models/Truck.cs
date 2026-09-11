@@ -16,6 +16,9 @@ namespace TAS_admin.Models
         [Display(Name = "น้ำหนัก (กก.)")]
         public decimal? WeightKg { get; set; }
 
+        [Display(Name = "ลักษณะยานพาหนะ")]
+        public string Characteristics { get; set; }
+
         [Display(Name = "คนขับ")]
         public int? DriverId { get; set; }
         public virtual Driver Driver { get; set; }

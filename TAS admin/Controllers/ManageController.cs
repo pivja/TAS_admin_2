@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -15,6 +16,7 @@ namespace TAS_admin.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private TasDbContext _tasDb = new TasDbContext();
 
         public ManageController()
         {
@@ -64,13 +66,25 @@ namespace TAS_admin.Controllers
                 : "";
 
             var userId = User.Identity.GetUserId();
+            var appUser = await UserManager.FindByIdAsync(userId);
+            var driver = _tasDb.Drivers.Include("Trucks").FirstOrDefault(d => d.ApplicationUserId == userId);
+
             var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
+                UserType = appUser != null ? appUser.UserType : null,
+                UsernameExpiryDate = appUser != null ? appUser.UsernameExpiryDate : null,
+                DriverFullName = driver != null ? driver.FullName : null,
+                DriverPhone = driver != null ? driver.Phone : null,
+                DriverEmployeeNo = driver != null ? driver.EmployeeNo : null,
+                DriverLicenseNo = driver != null ? driver.LicenseNo : null,
+                DriverAddress = driver != null ? driver.Address : null,
+                DriverPhotoPath = driver != null ? driver.PhotoPath : null,
+                TruckLicensePlates = driver != null ? driver.Trucks.Select(t => t.LicensePlate).ToList() : new List<string>()
             };
             return View(model);
         }
@@ -322,10 +336,18 @@ namespace TAS_admin.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing && _userManager != null)
+            if (disposing)
             {
-                _userManager.Dispose();
-                _userManager = null;
+                if (_userManager != null)
+                {
+                    _userManager.Dispose();
+                    _userManager = null;
+                }
+
+                if (_tasDb != null)
+                {
+                    _tasDb.Dispose();
+                }
             }
 
             base.Dispose(disposing);

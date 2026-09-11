@@ -1,4 +1,5 @@
 ﻿@model TAS_admin.Models.RegisterViewModel
+@using System.Collections.Generic
 @{
     ViewBag.Title = "Register";
 }
@@ -6,41 +7,43 @@
 <h2>Create a new account.</h2>
 <br />
 
-@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <hr />
     <h3>ข้อมูลระบบ Log On</h3>
     <br />
     <div class="row">
         <div class="container">
             <div class="col-md-6 col-md-push-1" style="margin-top:10px;margin-bottom:10px;">
-                <label for="sel1">ชื่อในระบบ : </label>
+                @Html.LabelFor(m => m.Username)
                 <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span></span>
-                    <input type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span></span>
+                    @Html.TextBoxFor(m => m.Username, new { @class = "form-control", placeholder = "Username" })
+                </div>
+                @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })
+                <br>
+            </div>
+            <div class="col-md-6 col-md-push-1" style="margin-top:10px;margin-bottom:10px;">
+                @Html.LabelFor(m => m.UserType)
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
+                    @Html.DropDownListFor(m => m.UserType, new List<SelectListItem>
+                    {
+                        new SelectListItem { Text = "กรุณาเลือกประเภท...", Value = "" },
+                        new SelectListItem { Text = "admin", Value = "admin" },
+                        new SelectListItem { Text = "messenger", Value = "messenger" },
+                        new SelectListItem { Text = "tracking", Value = "tracking" }
+                    }, new { @class = "form-control" })
                 </div>
                 <br>
             </div>
             <div class="col-md-6 col-md-push-1" style="margin-top:10px;margin-bottom:10px;">
-                <label for="sel1">ประเภทเจ้าของ Username : </label>
+                @Html.LabelFor(m => m.UsernameExpiryDateText)
                 <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
-                    <select class="form-control" id="sel1">
-                        <option>กรุณาเลือกประเภท...</option>
-                        <option>admin</option>
-                        <option>messenger</option>
-                        <option>tracking</option>
-                    </select>
-                </div>
-                <br>
-            </div>
-            <div class="col-md-6 col-md-push-1" style="margin-top:10px;margin-bottom:10px;">
-                <label for="sel1">วันหมดอายุของ Username : </label>
-                <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
-                    <!--input type="date" id="hyear" ng-model="inputhdate" class="form-control" aria-describedby="basic-addon1"-->
-                    <input type="text" id="datepicker" class="form-control" aria-describedby="basic-addon1" />
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+                    @Html.TextBoxFor(m => m.UsernameExpiryDateText, new { @class = "form-control", id = "datepicker", autocomplete = "off" })
                     <script>
                         $(function () {
                             $("#datepicker").datepicker();
@@ -50,7 +53,21 @@
                 <br>
             </div>
             <div class="col-md-6 col-md-push-1" style="margin-top:10px;margin-bottom:10px;">
-
+                @Html.LabelFor(m => m.Password)
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></span>
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
+                </div>
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                <br>
+            </div>
+            <div class="col-md-6 col-md-push-1" style="margin-top:10px;margin-bottom:10px;">
+                @Html.LabelFor(m => m.ConfirmPassword)
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></span>
+                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "Confirm password" })
+                </div>
+                @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
                 <br>
             </div>
         </div>
@@ -63,30 +80,30 @@
         <div class="container">
 
             <div class="col-md-6 col-md-push-1" style="margin-top:10px;margin-bottom:10px;">
-                <label for="sel1">ทะเบียนรถ : </label>
+                @Html.LabelFor(m => m.TruckLicensePlate)
                 <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-list" aria-hidden="true"></span></span>
-                    <input type="text" class="form-control" placeholder="เลขที่" aria-describedby="basic-addon1">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-list" aria-hidden="true"></span></span>
+                    @Html.TextBoxFor(m => m.TruckLicensePlate, new { @class = "form-control", placeholder = "เลขที่" })
                 </div>
                 <br />
-                <label for="sel1">จังหวัด : </label>
+                @Html.LabelFor(m => m.TruckProvince)
                 <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span></span>
-                    <input type="text" class="form-control" placeholder="จังหวัด" aria-describedby="basic-addon1">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span></span>
+                    @Html.TextBoxFor(m => m.TruckProvince, new { @class = "form-control", placeholder = "จังหวัด" })
                 </div>
                 <br />
-                <label for="sel1">น้ำหนักตัวรถ (ตัน) : </label>
+                @Html.LabelFor(m => m.TruckWeightTonText)
                 <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span></span>
-                    <input type="text" class="form-control" placeholder="น้ำหนักตัวรถ (ตัน)" aria-describedby="basic-addon1">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span></span>
+                    @Html.TextBoxFor(m => m.TruckWeightTonText, new { @class = "form-control", placeholder = "น้ำหนักตัวรถ (ตัน)" })
                 </div>
                 <br />
             </div>
             <div class="col-md-6 col-md-push-1" style="margin-top:10px;margin-bottom:10px;">
-                <label for="sel1">ลักษณะยานพาหนะ : </label>
+                @Html.LabelFor(m => m.TruckCharacteristics)
                 <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span></span>
-                    <textarea type="text" class="form-control" placeholder="ลักษณะยานพาหนะ" aria-describedby="basic-addon1" rows="8"></textarea>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span></span>
+                    @Html.TextAreaFor(m => m.TruckCharacteristics, new { @class = "form-control", placeholder = "ลักษณะยานพาหนะ", rows = 8 })
                 </div>
             </div>
 
@@ -102,48 +119,48 @@
         <div class="container">
 
             <div class="col-md-6 col-md-push-1" style="margin-top:10px;margin-bottom:10px;">
-                <label for="sel1">ชื่อ : </label>
+                @Html.LabelFor(m => m.FirstName)
                 <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
-                    <input type="text" class="form-control" placeholder="ชื่อ" aria-describedby="basic-addon1">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
+                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", placeholder = "ชื่อ" })
                 </div>
                 <br />
-                <label for="sel1">นามสกุล : </label>
+                @Html.LabelFor(m => m.LastName)
                 <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-tree-deciduous" aria-hidden="true"></span></span>
-                    <input type="text" class="form-control" placeholder="นามสกุล" aria-describedby="basic-addon1">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-tree-deciduous" aria-hidden="true"></span></span>
+                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", placeholder = "นามสกุล" })
                 </div>
                 <br />
-                <label for="sel1">เบอร์โทรศัพท์ : </label>
+                @Html.LabelFor(m => m.Phone)
                 <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span></span>
-                    <input type="text" class="form-control" placeholder="เบอร์โทรศัพท์" aria-describedby="basic-addon1">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span></span>
+                    @Html.TextBoxFor(m => m.Phone, new { @class = "form-control", placeholder = "เบอร์โทรศัพท์" })
                 </div>
                 <br />
-                <label for="sel1">หมายเลขพนักงาน : </label>
+                @Html.LabelFor(m => m.EmployeeNo)
                 <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-tag" aria-hidden="true"></span></span>
-                    <input type="text" class="form-control" placeholder="หมายเลขพนักงาน" aria-describedby="basic-addon1">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-tag" aria-hidden="true"></span></span>
+                    @Html.TextBoxFor(m => m.EmployeeNo, new { @class = "form-control", placeholder = "หมายเลขพนักงาน" })
                 </div>
                 <br />
-                <label for="sel1">ใบขับขี่เลขที่ : </label>
+                @Html.LabelFor(m => m.LicenseNo)
                 <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-credit-card" aria-hidden="true"></span></span>
-                    <input type="text" class="form-control" placeholder="ใบขับขี่เลขที่" aria-describedby="basic-addon1">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-credit-card" aria-hidden="true"></span></span>
+                    @Html.TextBoxFor(m => m.LicenseNo, new { @class = "form-control", placeholder = "ใบขับขี่เลขที่" })
                 </div>
                 <br />
             </div>
             <div class="col-md-6 col-md-push-1" style="margin-top:10px;margin-bottom:10px;">
-                <label for="sel1">ที่อยู่ : </label>
+                @Html.LabelFor(m => m.Address)
                 <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span></span>
-                    <textarea type="text" class="form-control" placeholder="ที่อยู่" aria-describedby="basic-addon1" rows="5"></textarea>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span></span>
+                    @Html.TextAreaFor(m => m.Address, new { @class = "form-control", placeholder = "ที่อยู่", rows = 5 })
                 </div>
                 <br />
-                <label for="sel1">รูปภาพ : </label>
+                <label>รูปภาพ : </label>
                 <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-picture" aria-hidden="true"></span></span>
-                    <textarea type="text" class="form-control" placeholder="รูปภาพ" aria-describedby="basic-addon1" rows="8"></textarea>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-picture" aria-hidden="true"></span></span>
+                    <input type="file" name="Photo" class="form-control" accept="image/*" style="height:auto;padding-top:7px;" />
                 </div>
             </div>
         </div>

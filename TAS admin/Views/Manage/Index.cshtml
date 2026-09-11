@@ -28,6 +28,49 @@
             @Model.Logins.Count [
             @Html.ActionLink("Manage", "ManageLogins") ]
         </dd>
+
+        @if (!string.IsNullOrEmpty(Model.UserType) || Model.UsernameExpiryDate.HasValue
+            || !string.IsNullOrEmpty(Model.DriverFullName) || !string.IsNullOrEmpty(Model.DriverPhone)
+            || !string.IsNullOrEmpty(Model.DriverEmployeeNo) || !string.IsNullOrEmpty(Model.DriverLicenseNo)
+            || !string.IsNullOrEmpty(Model.DriverAddress) || !string.IsNullOrEmpty(Model.DriverPhotoPath)
+            || (Model.TruckLicensePlates != null && Model.TruckLicensePlates.Count > 0))
+        {
+            <dt>ประเภทผู้ใช้:</dt>
+            <dd>@(string.IsNullOrEmpty(Model.UserType) ? "-" : Model.UserType)</dd>
+
+            <dt>วันหมดอายุ Username:</dt>
+            <dd>@(Model.UsernameExpiryDate.HasValue ? Model.UsernameExpiryDate.Value.ToString("dd/MM/yyyy") : "-")</dd>
+
+            <dt>ชื่อ-นามสกุล:</dt>
+            <dd>@(string.IsNullOrEmpty(Model.DriverFullName) ? "-" : Model.DriverFullName)</dd>
+
+            <dt>เบอร์โทรศัพท์:</dt>
+            <dd>@(string.IsNullOrEmpty(Model.DriverPhone) ? "-" : Model.DriverPhone)</dd>
+
+            <dt>หมายเลขพนักงาน:</dt>
+            <dd>@(string.IsNullOrEmpty(Model.DriverEmployeeNo) ? "-" : Model.DriverEmployeeNo)</dd>
+
+            <dt>ใบขับขี่เลขที่:</dt>
+            <dd>@(string.IsNullOrEmpty(Model.DriverLicenseNo) ? "-" : Model.DriverLicenseNo)</dd>
+
+            <dt>ที่อยู่:</dt>
+            <dd>@(string.IsNullOrEmpty(Model.DriverAddress) ? "-" : Model.DriverAddress)</dd>
+
+            <dt>รูปภาพ:</dt>
+            <dd>
+                @if (!string.IsNullOrEmpty(Model.DriverPhotoPath))
+                {
+                    <img src="@Model.DriverPhotoPath" style="max-width:150px;max-height:150px;" />
+                }
+                else
+                {
+                    @:-
+                }
+            </dd>
+
+            <dt>ทะเบียนรถที่ผูกไว้:</dt>
+            <dd>@(Model.TruckLicensePlates != null && Model.TruckLicensePlates.Count > 0 ? string.Join(", ", Model.TruckLicensePlates) : "-")</dd>
+        }
         @*
             Phone Numbers can used as a second factor of verification in a two-factor authentication system.
              

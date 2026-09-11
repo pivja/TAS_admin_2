@@ -25,6 +25,15 @@ namespace TAS_admin.Models
         [Display(Name = "เบอร์โทร")]
         public string Phone { get; set; }
 
+        [Display(Name = "หมายเลขพนักงาน")]
+        public string EmployeeNo { get; set; }
+
+        [Display(Name = "รูปภาพ")]
+        public string PhotoPath { get; set; }
+
+        // เชื่อมกับบัญชีผู้ใช้ login (ApplicationUser.Id อยู่คนละฐานข้อมูล จึงเก็บเป็น string เทียบเอง ไม่ใช้ FK ของ EF)
+        public string ApplicationUserId { get; set; }
+
         public virtual ICollection<Truck> Trucks { get; set; }
     }
 }

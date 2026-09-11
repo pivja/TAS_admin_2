@@ -25,6 +25,10 @@ namespace TAS_admin
 
             // ให้ระบบสร้างฐานข้อมูล TAS_admin_Data อัตโนมัติตอนรันครั้งแรก (พร้อมข้อมูลตัวอย่าง)
             Database.SetInitializer(new TasDbInitializer());
+
+            // ฐานข้อมูล login (ApplicationUser) แยกคนละฐานกับข้างบน - ให้สร้างใหม่อัตโนมัติเมื่อโครงสร้างเปลี่ยนเหมือนกัน
+            // (เพิ่ม UserType/UsernameExpiryDate เข้าไปใน ApplicationUser)
+            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<ApplicationDbContext>());
         }
     }
 }

@@ -12,6 +12,17 @@ namespace TAS_admin.Models
         public string PhoneNumber { get; set; }
         public bool TwoFactor { get; set; }
         public bool BrowserRemembered { get; set; }
+
+        // ===== ข้อมูลบัญชี + คนขับ/รถ ที่กรอกไว้ตอน Register =====
+        public string UserType { get; set; }
+        public System.DateTime? UsernameExpiryDate { get; set; }
+        public string DriverFullName { get; set; }
+        public string DriverPhone { get; set; }
+        public string DriverEmployeeNo { get; set; }
+        public string DriverLicenseNo { get; set; }
+        public string DriverAddress { get; set; }
+        public string DriverPhotoPath { get; set; }
+        public List<string> TruckLicensePlates { get; set; }
     }
 
     public class ManageLoginsViewModel
